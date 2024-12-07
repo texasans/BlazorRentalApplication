@@ -1,0 +1,29 @@
+﻿
+@page "/add-category-form"
+@using BlazorApp1.Services;
+@inject CategoryService categoryService;
+@inject NavigationManager navigator;
+
+<h3>Add Category Form</h3>
+
+<AddEditCategoryForm xcategory="category" SaveCategory="Save"></AddEditCategoryForm>
+
+@code {
+    
+    public Category category;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        category = new();
+    }
+
+
+    public void Save(Category category)
+    {
+        categoryService.Insert(category);
+        navigator.NavigateTo("category");
+
+        //redirect to list page
+    }
+}

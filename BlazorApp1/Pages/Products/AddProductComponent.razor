@@ -1,0 +1,42 @@
+﻿
+@page "/add-product-form"
+@using BlazorApp1.Services;
+@inject CategoryService categoryService;
+@inject ProductsService productService;
+@inject NavigationManager navigator;
+
+<h3>Add Product Form</h3>
+
+<EditForm Model="product" OnSubmit="Save">
+
+    <InputText class="form-control" @bind-Value="product.Name" placeholder="Enter name"></InputText><br />
+    <InputText class="form-control" @bind-Value="product.Description" placeholder="Enter description"></InputText><br />
+
+    <InputSelect class="form-control" @bind-Value="product.CategoryId">
+        <option value="0">-- Select Category --</option>
+        @foreach (var item in categories)
+        {
+            <option value="@item.CategoryId">@item.Name</option>
+        }
+    </InputSelect>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Products product { get; set; } = new Products();
+    public List<Category> categories = new List<Category>();
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        categories = categoryService.GetAll();
+    }
+
+    public void Save()
+    {
+        productService.Insert(product);
+        navigator.NavigateTo("product-list");
+    }
+}

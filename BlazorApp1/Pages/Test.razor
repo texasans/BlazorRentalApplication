@@ -1,0 +1,51 @@
+﻿@page "/test";
+
+
+
+<h3>Hello, @GetName()</h3>
+
+Number #1:
+<input @bind-value="Num1" />
+
+Number #2:
+<input @bind-value="Num2" />
+
+Result:
+<input @bind-value="Result" />
+
+<button @onclick="CaluclateSum">Caluclate</button>
+
+<br />
+<h2>Hello, My Username is @username</h2>
+<br />
+
+<input @bind-value="username" />
+
+<br />
+
+@foreach(var item in UsersList)
+{
+    <h4>@item</h4>
+
+}
+
+@code {
+    public string username { get; set; } = "Ali Ahmed";
+
+    List<string> UsersList = new List<string> { "ali", "ahmed", "John", "Peter", "Smith" };
+
+    
+    public int Num1 { get; set; }
+    public int Num2 { get; set; }
+    public int Result { get; set; }
+
+    public string GetName()
+    {
+        return "Ali Ahmed";
+    }
+
+    public void CaluclateSum()
+    {
+        Result = Num1 +Num2;
+    }
+}

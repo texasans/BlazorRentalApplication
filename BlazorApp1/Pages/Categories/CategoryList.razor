@@ -1,0 +1,49 @@
+﻿
+@page "/category"
+@using BlazorApp1.Data;
+@using BlazorApp1.Services;
+@inject CategoryService categoryService;
+
+<h3>CategoryList</h3>
+
+<a href="./add-category-form">Add New Category</a>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Category Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in categoryList)
+        {
+            <CategoryRow category="item" DeleteCategory="DeleteCategory"> </CategoryRow>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    public List<Category> categoryList;
+
+    public void GetCategories()
+    {
+        categoryList = categoryService.GetAll();
+    }
+
+    protected override void OnInitialized()
+    {
+        GetCategories();
+        base.OnInitialized();   
+    }
+
+    private void DeleteCategory(int categoryId)
+    {
+        categoryService.Delete(categoryId);
+        categoryList.RemoveAll(x => x.CategoryId == categoryId);
+    }
+
+}

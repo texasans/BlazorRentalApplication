@@ -1,0 +1,29 @@
+﻿
+@page "/add-order"
+@using BlazorApp1.Services;
+@inject OrderService orderService;
+@inject NavigationManager navigator;
+
+<h3>New Order</h3>
+
+<ShowOrder xorder="order" SaveOrder="Save"></ShowOrder>
+
+@code {
+    
+    public Order order;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        order = new();
+    }
+
+
+    public void Save(Order order)
+    {
+        orderService.Insert(order);
+        navigator.NavigateTo("order-list");
+
+        //redirect to list page
+    }
+}

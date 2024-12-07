@@ -1,0 +1,24 @@
+﻿@inject NavigationManager navigator;
+<tr>
+    <td>@employee.EmployeeId</td>
+    <td>@employee.FirstName</td>
+    <td>@employee.LastName</td>
+    <td>@employee.GenderId</td>
+    <td>@employee.CountryId</td>
+    <td>@employee.CityId</td>
+    <td>@employee.Status</td>
+    <td>
+        <button type="button" class="btn btn-secondary" @onclick="Edit">Edit</button>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public Employee employee { get; set; }
+
+    public void Edit()
+    {
+        navigator.NavigateTo($"edit-employee/{employee.EmployeeId}");
+
+    }
+}

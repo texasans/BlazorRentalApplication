@@ -1,0 +1,57 @@
+﻿@page "/order-list"
+
+<PageTitle>Order List</PageTitle>
+
+@using BlazorApp1.Data
+@using BlazorApp1.Services;
+@inject OrderService orderService;
+
+
+<h1>Order List</h1>
+
+<a href="./add-order">Add New Order</a>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th align="center">Order #</th>
+            <th align="center">Date</th>
+            <th>Customer</th>
+            <!-- <th>Shipped From</th>
+            <th>Shipped To</th> -->
+            <th align="right">Items</th>
+            <th align="right">Total</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in orderList)
+        {
+            <OrderRow order="item" DeleteOrder="DeleteOrder"> </OrderRow>
+        }
+    </tbody>
+</table>
+
+
+
+@code {
+    public List<Order> orderList;
+    //public Order oo = new Order();
+
+    public void GetOrders()
+    {
+        orderList = orderService.GetAll();
+    }
+
+    protected override void OnInitialized()
+    {
+        GetOrders();
+        base.OnInitialized();   
+    }
+
+    private void DeleteOrder(int idOrder)
+    {
+        orderService.Delete(idOrder);
+        orderList.RemoveAll(x => x.idOrder == idOrder);
+    }
+}

@@ -1,0 +1,60 @@
+﻿@using BlazorApp1.Services;
+@inject OrderService orderService;
+@inject CustomerService customerService;
+@inject NavigationManager navigator;
+
+
+
+<tr><!-- @onclick="Edit" -->
+    <td align="center"><a href="edit-order/@order.idOrder">@order.idOrder</a></td>
+    <!--<td><a @onclick="Edit">@order.idOrder</a></td>-->
+    <td>@order.date.ToString("MM/dd/yyyy")</td>
+    <td>@yCustomer.FirstName</td>
+    <!-- <td>@order.idCustomer</td> -->
+    <!-- <td>@order.shippedFrom</td>
+    <td>@order.shippedTo</td> -->
+    <td align="right">@order.quantityOfItems.ToString()</td>
+    <td align="right">@order.totalAmount.ToString("c2")</td>
+    <td>@order.note</td>
+    <td align="center">
+        <a href="edit-order/@order.idOrder"><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
+        <a @onclick="Delete"><img src="icons/icon_delete_red.png" width="16" height="16"></a>
+        <!--<button class="btn btn-secondary" @onclick="Edit">Edit</button>
+        <button class="btn btn-danger" @onclick="Delete">Delete</button>-->
+    </td>
+</tr> 
+
+@code
+{
+    [Parameter]
+    public Order order { get; set; }
+
+    [Parameter]
+    public EventCallback<int> DeleteOrder { get; set; }
+
+    public Customer yCustomer;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        yCustomerName();
+    }
+
+    public void yCustomerName() {
+        yCustomer = customerService.GetById(order.idCustomer);
+        //string strCustomerName = yCustomer.FirstName + yCustomer.LastName;
+    }
+    public void Delete()
+    {
+        DeleteOrder.InvokeAsync(order.idOrder);
+
+    }
+    public void Edit()
+    {
+        navigator.NavigateTo($"edit-order/{order.idOrder}");
+
+    }
+
+    //Callback
+}
+

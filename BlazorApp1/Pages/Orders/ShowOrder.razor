@@ -1,0 +1,75 @@
+﻿@using BlazorApp1.Services;
+@inject CustomerService customerService;
+
+
+<EditForm Model="xorder" OnValidSubmit="Save">
+
+    <label>
+        Order number:
+        <InputNumber class="form-control" @bind-Value="xorder.idOrder"></InputNumber>
+    </label>
+    <label>
+        Date:
+        <InputDate class="form-control" @bind-Value="xorder.date" placeholder="Enter order date"></InputDate>
+    </label><br /><br />
+    <label>
+        <!--Customer:
+    <InputNumber class="form-control" @bind-Value="xorder.idCustomer" placeholder="Enter customer"></InputNumber>
+    </label><br />
+    <label> -->
+        Customer:
+        <InputSelect class="form-control" @bind-Value="xorder.idCustomer">
+            <option value="0">-- Select Customer --</option>
+            @foreach (var item in customerList)
+            {
+                <option value="@item.CustomerId">@item.FirstName @item.LastName</option>
+            }
+        </InputSelect>
+    </label><br />
+    <label>
+        Shipped from:
+        <InputNumber class="form-control" @bind-Value="xorder.shippedFrom" placeholder="Shipped from"></InputNumber>
+    </label>
+    <label>
+        Shipped to:
+        <InputNumber class="form-control" @bind-Value="xorder.shippedTo" placeholder="Shipped to"></InputNumber>
+    </label><br />
+    <label>
+        Quantity of items:
+    <InputNumber class="form-control" @bind-Value="xorder.quantityOfItems"></InputNumber>
+    </label>
+    <label>
+        Total amount:
+        <InputNumber class="form-control" @bind-Value="xorder.totalAmount" InputGroupStartText="$" InputGroupEndText=".00"></InputNumber>
+    </label><br />
+    <label>
+        Notes:
+        <InputText class="form-control" @bind-Value="xorder.note" placeholder="Enter order notes"></InputText>
+    </label><br /><br />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public Order xorder { get; set; }
+
+    [Parameter]
+    public EventCallback<Order> SaveOrder { get; set; }
+
+    public List<Customer> customerList = new List<Customer>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        customerList = customerService.GetAll();
+    }
+
+    public void Save()
+    {
+        SaveOrder.InvokeAsync(xorder);
+
+    }
+
+}

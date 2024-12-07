@@ -1,0 +1,47 @@
+﻿
+@page "/edit-product-form/{productId:int}"
+@using BlazorApp1.Services
+@inject CategoryService categoryService;
+@inject ProductsService productService;
+@inject NavigationManager navigator;
+
+<h3>Edit Product</h3>
+
+<EditForm Model="product" OnSubmit="Edit">
+
+    <InputText class="form-control" @bind-Value="product.Name" placeholder="Enter name"></InputText><br />
+    <InputText class="form-control" @bind-Value="product.Description" placeholder="Enter description"></InputText><br />
+
+    <InputSelect class="form-control" @bind-Value="product.CategoryId">
+        <option value="0">-- Select Category --</option>
+        @foreach (var item in categories)
+        {
+            <option value="@item.CategoryId">@item.Name</option>
+        }
+    </InputSelect>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public int productId { get; set; }
+
+    public Products product = new Products();
+    public List<Category> categories = new List<Category>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        product = productService.GetById(productId);
+        categories = categoryService.GetAll();
+    }
+
+    public void Edit()
+    {
+        productService.Update(product);
+        navigator.NavigateTo("product-list");
+    }
+}

@@ -1,0 +1,21 @@
+﻿@inject NavigationManager navigator;
+<tr>
+    <td>@product.ProductId</td>
+    <td>@product.Name</td>
+    <td>@product.Description</td>
+    <td>@product.CategoryId</td>
+    <td>
+        <button class="btn btn-secondary" @onclick="Edit">Edit</button>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public Products product { get; set; }
+
+    public void Edit()
+    {
+        navigator.NavigateTo($"edit-product-form/{product.ProductId}");
+
+    }
+}

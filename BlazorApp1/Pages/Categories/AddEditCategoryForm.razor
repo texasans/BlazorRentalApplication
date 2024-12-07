@@ -1,0 +1,29 @@
+﻿
+
+<EditForm Model="xcategory" OnValidSubmit="Save">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <InputText class="form-control" @bind-Value="xcategory.Name" placeholder="Enter name"></InputText><br />
+    <ValidationMessage For="(() => xcategory.Name)"></ValidationMessage>
+
+    <InputText class="form-control" @bind-Value="xcategory.Description" placeholder="Enter description"></InputText><br />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public Category xcategory { get; set; }
+
+    [Parameter]
+    public EventCallback<Category> SaveCategory { get;set; }
+
+    public void Save()
+    {
+        SaveCategory.InvokeAsync(xcategory);
+
+    }
+
+}

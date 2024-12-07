@@ -1,0 +1,40 @@
+﻿
+@page "/add-employee"
+@using BlazorApp1.Data;
+@inject EFCoreDbContext context;
+@inject NavigationManager navigator;
+
+<h3>Add New Employee</h3>
+
+<AddEditEmployeeComponent OnCountryDropdownChanged="OnCountryChanged"
+    CountryList="CountryList" 
+    CityList="CityList"
+    Employee="Employee" 
+    SaveEmployee="SaveEmployee"></AddEditEmployeeComponent>
+
+@code {
+
+    public Employee Employee = new Employee();
+
+    public List<Country> CountryList = new List<Country>();
+    public List<City> CityList = new List<City>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        CountryList = context.Country.ToList();
+
+    }
+
+    public void OnCountryChanged(int countryId)
+    {
+        Employee.CityId = 0;
+        CityList = context.City.Where(x => x.CountryId == countryId).ToList();
+    }
+    public void SaveEmployee()
+    {
+        context.Employee.Add(Employee);
+        context.SaveChanges();
+        navigator.NavigateTo("employee-list");
+    }
+}

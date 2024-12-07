@@ -1,0 +1,26 @@
+﻿@using BlazorApp1.Data;
+@inject EFCoreDbContext context;
+@page "/customers"
+
+<CustomerAddEditComponent customer="customer" OnSearch="OnSearch"></CustomerAddEditComponent>
+
+<CustomerListComponent OnEdit="OnEdit" SearchText="@SearchText"></CustomerListComponent>
+
+@code {
+    public Customer customer = new();
+
+    public string SearchText = string.Empty;
+
+    public void OnSearch(string search)
+    {
+        customer = new();
+        this.SearchText = search;
+    }
+
+    public void OnEdit(int customerId)
+    {
+        customer = context.Customer.Find(customerId);
+    }
+
+
+}

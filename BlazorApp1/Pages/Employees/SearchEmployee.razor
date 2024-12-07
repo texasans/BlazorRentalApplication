@@ -1,0 +1,21 @@
+﻿
+<h3>Search Employee</h3>
+
+
+  <input class="form-control" @bind-value="@SearchText" /> <br />
+<button type="button" @onclick="OnSearch" class="btn btn-primary">Search</button>
+
+
+
+@code {
+    public string SearchText { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> SearchRecord { get; set; }
+
+    public void OnSearch()
+    {
+        SearchRecord.InvokeAsync(SearchText);
+
+    }
+}

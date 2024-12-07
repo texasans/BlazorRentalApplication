@@ -1,0 +1,54 @@
+﻿@using BlazorApp1.Data;
+
+@inject EFCoreDbContext context;
+
+<h3>Customer List</h3>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Customer Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in customers)
+        {
+            <tr>
+                <td>@item.CustomerId</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>
+                    <button type="button" class="btn btn-outline-secondary" @onclick="(() => Edit(item.CustomerId))">Edit</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public List<Customer> customers = new List<Customer>();
+
+    [Parameter]
+    public string SearchText { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnEdit { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrEmpty(SearchText))
+            customers = context.Customer.ToList();
+        else
+            customers = context.Customer.Where(x => x.FirstName.Contains(SearchText) ||
+                                                    x.LastName.Contains(SearchText)).ToList();
+    }
+    public void Edit(int customerId)
+    {
+        OnEdit.InvokeAsync(customerId);
+
+    }
+
+}

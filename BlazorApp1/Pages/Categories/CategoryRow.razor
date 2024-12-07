@@ -1,0 +1,38 @@
+﻿@using BlazorApp1.Services;
+@inject CategoryService categoryService;
+@inject NavigationManager navigator;
+
+
+
+<tr>
+    <td>@category.CategoryId</td>
+    <td>@category.Name</td>
+    <td>@category.Description</td>
+    <td>
+        <button class="btn btn-secondary" @onclick="Edit">Edit</button> |
+        <button class="btn btn-danger" @onclick="Delete">Delete</button>
+    </td>
+</tr> 
+
+@code
+{
+    [Parameter]
+    public Category category { get; set; }
+
+    [Parameter]
+    public EventCallback<int> DeleteCategory { get; set; }
+
+    public void Delete()
+    {
+        DeleteCategory.InvokeAsync(category.CategoryId);
+
+    }
+    public void Edit()
+    {
+        navigator.NavigateTo($"edit-category-form/{category.CategoryId}");
+
+    }
+
+    //Callback
+}
+

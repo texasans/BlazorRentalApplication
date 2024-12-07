@@ -1,0 +1,44 @@
+﻿@page "/edit-employee/{employeeId:int}"
+@using BlazorApp1.Data;
+@inject EFCoreDbContext context;
+@inject NavigationManager navigator;
+
+<AddEditEmployeeComponent OnCountryDropdownChanged="OnCountryChanged"
+    Employee="Employee" 
+    CountryList="CountryList" 
+    CityList="CityList" 
+    SaveEmployee="Save"></AddEditEmployeeComponent>
+
+
+
+@code {
+
+    [Parameter]
+    public int employeeId { get; set; }        
+
+    public Employee Employee = new Employee();
+
+
+    public List<Country> CountryList = new List<Country>();
+    public List<City> CityList = new List<City>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Employee = context.Employee.Find(employeeId);
+        CountryList = context.Country.ToList();
+        CityList = context.City.Where(x => x.CountryId == Employee.CountryId).ToList();
+    }
+
+    public void OnCountryChanged(int countryId)
+    {
+        Employee.CityId = 0;
+        CityList = context.City.Where(x => x.CountryId == countryId).ToList();
+    }
+    public void Save()
+    {
+        context.Employee.Update(Employee);
+        context.SaveChanges();
+        navigator.NavigateTo("employee-list");
+    }
+}

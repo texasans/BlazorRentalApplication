@@ -1,0 +1,36 @@
+﻿@using BlazorApp1.Data;
+@inject EFCoreDbContext context;
+
+<h3>Add | Edit</h3>
+
+<EditForm Model="customer" OnSubmit="OnSave">
+
+    <InputText @bind-Value="customer.FirstName" class="form-control" /><br />
+    <InputText @bind-Value="customer.LastName" class="form-control" /><br />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public Customer customer { get; set; }
+
+    
+    [Parameter]
+    public EventCallback<string> OnSearch { get; set; }
+
+    public void OnSave()
+    {
+        if (customer.CustomerId > 0)
+            context.Customer.Update(customer);
+        else 
+            context.Customer.Add(customer);
+
+        context.SaveChanges();
+        OnSearch.InvokeAsync(null);
+
+    }
+
+}

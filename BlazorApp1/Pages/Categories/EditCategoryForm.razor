@@ -1,0 +1,32 @@
+﻿
+@page "/edit-category-form/{categoryId:int}";
+@using BlazorApp1.Services;
+@inject CategoryService categoryService;
+@inject NavigationManager navigator;
+
+<h3>Edit Category Form</h3>
+
+<AddEditCategoryForm xcategory="category" SaveCategory="Save"></AddEditCategoryForm>
+
+
+@code {
+
+    [Parameter]
+    public int categoryId { get; set; }
+
+    public Category category;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        category = categoryService.GetById(categoryId);
+    }
+
+
+    public void Save(Category category)
+    {
+        categoryService.Update(category);
+        navigator.NavigateTo("category");
+
+    }
+}

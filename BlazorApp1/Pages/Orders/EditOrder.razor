@@ -1,0 +1,30 @@
+﻿
+@page "/edit-order/{idOrder:int}";
+@using BlazorApp1.Services;
+@inject OrderService orderService;
+@inject NavigationManager navigator;
+
+<h3>Edit Order</h3>
+
+<ShowOrder xorder="order" SaveOrder="Save"></ShowOrder>
+
+
+@code {
+
+    [Parameter]
+    public int idOrder { get; set; }
+
+    public Order order;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        order = orderService.GetById(idOrder);
+    }
+
+    public void Save(Order order)
+    {
+        orderService.Update(order);
+        navigator.NavigateTo("order-list");
+    }
+}
