@@ -5,13 +5,12 @@
 <EditForm Model="xorder" OnValidSubmit="Save">
 
     <label>
-        Order number:
-        <InputNumber class="form-control" @bind-Value="xorder.idOrder"></InputNumber>
-    </label>
+        Order #: @xorder.idOrder
+    </label><br /><br />
     <label>
         Date:
         <InputDate class="form-control" @bind-Value="xorder.date" placeholder="Enter order date"></InputDate>
-    </label><br /><br />
+    </label>
     <label>
         <!--Customer:
     <InputNumber class="form-control" @bind-Value="xorder.idCustomer" placeholder="Enter customer"></InputNumber>
@@ -34,14 +33,14 @@
         Shipped to:
         <InputNumber class="form-control" @bind-Value="xorder.shippedTo" placeholder="Shipped to"></InputNumber>
     </label><br />
-    <label>
+    <!--<label>
         Quantity of items:
     <InputNumber class="form-control" @bind-Value="xorder.quantityOfItems"></InputNumber>
     </label>
     <label>
         Total amount:
         <InputNumber class="form-control" @bind-Value="xorder.totalAmount" InputGroupStartText="$" InputGroupEndText=".00"></InputNumber>
-    </label><br />
+    </label><br />-->
     <label>
         Notes:
         <InputText class="form-control" @bind-Value="xorder.note" placeholder="Enter order notes"></InputText>
