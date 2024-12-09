@@ -3,12 +3,25 @@
 @using BlazorApp1.Services;
 @inject OrderService orderService;
 @inject NavigationManager navigator;
+@inject OrderDetailService orderDetailService;
+@inject ProductsService productService;
 
-<h3>New Order</h3>
+<h3>New Rental Order</h3>
 
 <ShowOrder xorder="order" SaveOrder="Save"></ShowOrder>
 
-<table class="table table-hover table-striped table-bordered">
+<EditForm OnValidSubmit="">
+
+<InputSelect class="form-control" @bind-Value="orderDetail.productId">
+    <option value="0">-- Select Product --</option>
+    @foreach (var iProduct in productList)
+    {
+        <option value="@iProduct.ProductId">@iProduct.Name</option>
+    }
+</InputSelect>
+    </EditForm>
+
+    <table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
             <th>Product</th>
@@ -19,49 +32,85 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td contenteditable="true">
-                <select name="xx" id="product">
-                    <option value="0">-- Select Customer --</option>
-                    <option value="1">Wheelchair</option>
-                </select>
-            </td>
-            <td contenteditable="true">Standard wheelchair 20in</td>
-            <td contenteditable="true" align="right">2</td>
-            <td contenteditable="true" align="right">$65</td>
-            <td align="right">$130</td>
-            <td align="center">
-                <a href="edit-order/@order.idOrder"><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
-                <a><img src="icons/icon_delete_red.png" width="16" height="16"></a>
-                <!--<button class="btn btn-secondary" @onclick="Edit">Edit</button>
-                <button class="btn btn-danger" @onclick="Delete">Delete</button>-->
-            </td>
-        </tr>
-
-        <!--@foreach (var item in orderList)
+        @foreach (var item in orderDetailList)
         {
-            <OrderRow order="item" DeleteOrder="DeleteOrder"> </OrderRow>
-        }-->
+            <tr>
+                <td>@yProduct.Name</td>
+                <td>@item.description</td>
+                <td align="right">@item.quantity</td>
+                <td align="right">@item.unitPrice</td>
+                <td align="right">@item.quantity * item.unitPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table contenteditable="true" class="table table-hover table-striped table-bordered">
+    <tbody>
+        <tr contenteditable="true">
+            <td contenteditable="true">xx
+                <!--<InputSelect class="form-control" @bind-Value="orderDetail.productId">
+                    <option value="0">-- Select Product --</option>
+                    @foreach (var iProduct in productList)
+                    {
+                        <option value="@iProduct.ProductId">@iProduct.Name</option>
+                    }
+                </InputSelect>-->
+             
+            </td>
+            <td contenteditable="true"><input class="form-control" @bind-value="orderDetail.description"></input></td>
+            <td contenteditable="true" align="right">@orderDetail.quantity</td>
+            <td contenteditable="true" align="right">@orderDetail.unitPrice</td>
+            <td align="right">@getTotal()</td>
+        </tr>
     </tbody>
 </table>
 
 
 @code {
-    
+
     public Order order;
+    public OrderDetail orderDetail;
+    public List<OrderDetail> orderDetailList;
+    public List<Products> productList = new List<Products>();
+    public Products yProduct;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         order = new();
+        orderDetail = new();
+        productList = productService.GetAll();
+        GetOrderDetail();
+        getProduct();
     }
-
 
     public void Save(Order order)
     {
         orderService.Insert(order);
         navigator.NavigateTo("order-list");
-
         //redirect to list page
+    }
+
+    // OrderDetail
+    public void GetOrderDetail()
+    {
+        orderDetailList = orderDetailService.GetAll();
+    }
+
+    private void DeleteOrderDetail(int idOrderDetail)
+    {
+        orderService.Delete(idOrderDetail);
+        orderDetailList.RemoveAll(x => x.idOrder == idOrderDetail);
+    }
+
+    public void getProduct()
+    {
+        yProduct = productService.GetById(orderDetail.productId);
+    }
+
+    public Double getTotal()
+    {
+        return orderDetail.quantity * orderDetail.unitPrice;
     }
 }

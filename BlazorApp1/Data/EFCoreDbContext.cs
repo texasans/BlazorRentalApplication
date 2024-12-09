@@ -29,6 +29,6 @@ namespace BlazorApp1.Data
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Order> Order { get; set; }
-
+        public DbSet<OrderDetail> OrderDetail { get; set; }
     }
 }

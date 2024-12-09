@@ -13,6 +13,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddDbContext<EFCoreDbContext>();
 builder.Services.AddTransient<CategoryService>();
 builder.Services.AddTransient<OrderService>();
+builder.Services.AddTransient<OrderDetailService>();
 builder.Services.AddTransient<ProductsService>();
 builder.Services.AddTransient<CustomerService>();
 

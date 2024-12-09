@@ -16,6 +16,6 @@ namespace BlazorApp1.Models
         public Int32 shippedTo { get; set; }
         public Int32 quantityOfItems { get; set; }
         public Double totalAmount { get; set; }
-        public String note { get; set; } = null;
+        public String note { get; set; }
     }
 }

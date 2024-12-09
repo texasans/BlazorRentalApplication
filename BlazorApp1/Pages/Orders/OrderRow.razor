@@ -19,8 +19,6 @@
     <td align="center">
         <a href="edit-order/@order.idOrder"><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
         <a @onclick="Delete"><img src="icons/icon_delete_red.png" width="16" height="16"></a>
-        <!--<button class="btn btn-secondary" @onclick="Edit">Edit</button>
-        <button class="btn btn-danger" @onclick="Delete">Delete</button>-->
     </td>
 </tr> 
 
@@ -44,6 +42,7 @@
         yCustomer = customerService.GetById(order.idCustomer);
         //string strCustomerName = yCustomer.FirstName + yCustomer.LastName;
     }
+
     public void Delete()
     {
         DeleteOrder.InvokeAsync(order.idOrder);
