@@ -7,6 +7,7 @@ namespace BlazorApp1.Services
     public interface IOrderDetailService 
     {
         List<OrderDetail> GetAll();
+        List<OrderDetail> getByIdOrder(int idOrder);
         OrderDetail GetById(int id);
         OrderDetail Insert(OrderDetail obj);
         OrderDetail Update(OrderDetail obj);
@@ -29,6 +30,16 @@ namespace BlazorApp1.Services
         public List<OrderDetail> GetAll()
         {
             return context.OrderDetail.ToList();
+        }
+
+        public List<OrderDetail> getByIdOrder(int idOrder)
+        {
+            return context.OrderDetail.Where(x => x.idOrder.Equals(idOrder)).ToList();
+            
+            //employees = context.Employee.Where(x => x.FirstName.Contains(search) ||
+            //                                 x.LastName.Contains(search)).ToList();
+
+            //return context.OrderDetail.Find(id);
         }
 
         public OrderDetail GetById(int id)

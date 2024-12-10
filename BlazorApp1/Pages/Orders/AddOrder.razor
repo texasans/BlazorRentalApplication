@@ -10,16 +10,7 @@
 
 <ShowOrder xorder="order" SaveOrder="Save"></ShowOrder>
 
-<EditForm OnValidSubmit="">
-
-<InputSelect class="form-control" @bind-Value="orderDetail.productId">
-    <option value="0">-- Select Product --</option>
-    @foreach (var iProduct in productList)
-    {
-        <option value="@iProduct.ProductId">@iProduct.Name</option>
-    }
-</InputSelect>
-    </EditForm>
+<EditForm Model="orderDetail" OnValidSubmit="insertOrderDetail">
 
     <table class="table table-hover table-striped table-bordered">
     <thead>
@@ -29,42 +20,45 @@
             <th>Quantity</th>
             <th align="right">Unit Price</th>
             <th align="right">Total</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in orderDetailList)
         {
             <tr>
-                <td>@yProduct.Name</td>
+                <td>@getProductName(item.productId)</td>
                 <td>@item.description</td>
                 <td align="right">@item.quantity</td>
                 <td align="right">@item.unitPrice</td>
-                <td align="right">@item.quantity * item.unitPrice</td>
-            </tr>
+                <td align="right">@(item.quantity * item.unitPrice)</td>
+                <td align="center">
+                    <a @onclick="insertOrderDetail"><img src="icons/icon_delete_red.png" width="24" height="24"></a>
+                </td>
+                </tr>
         }
-    </tbody>
-</table>
-
-<table contenteditable="true" class="table table-hover table-striped table-bordered">
-    <tbody>
-        <tr contenteditable="true">
-            <td contenteditable="true">xx
-                <!--<InputSelect class="form-control" @bind-Value="orderDetail.productId">
-                    <option value="0">-- Select Product --</option>
-                    @foreach (var iProduct in productList)
-                    {
-                        <option value="@iProduct.ProductId">@iProduct.Name</option>
-                    }
-                </InputSelect>-->
-             
+        <tr>
+            <td>
+                <select id="xx" class="form-control" bind-value=@orderDetail.productId >
+                <option value="0">-- Select Product --</option>
+                @foreach (var iProduct in productList)
+                {
+                    <option value="@iProduct.ProductId">@iProduct.Name</option>
+                }
+                </select>
+                </td>
+            <td><input type="text" class="form-control" @bind-value="orderDetail.description"></td>
+            <td><InputText class="form-control" @bind-Value="orderDetail.description"></InputText></td>
+            <td><InputNumber class="form-control" @bind-Value="orderDetail.quantity"></InputNumber></td>
+            <td><InputNumber class="form-control" @bind-Value="orderDetail.unitPrice"></InputNumber></td>
+            <td align="right">@getTotalOrderDetail()</td>
+            <td align="center">
+                    <a @onclick="insertOrderDetail"><img src="icons/icon_add_green.png" width="24" height="24"></a>
             </td>
-            <td contenteditable="true"><input class="form-control" @bind-value="orderDetail.description"></input></td>
-            <td contenteditable="true" align="right">@orderDetail.quantity</td>
-            <td contenteditable="true" align="right">@orderDetail.unitPrice</td>
-            <td align="right">@getTotal()</td>
-        </tr>
+            </tr>
     </tbody>
 </table>
+</EditForm>
 
 
 @code {
@@ -81,36 +75,65 @@
         order = new();
         orderDetail = new();
         productList = productService.GetAll();
-        GetOrderDetail();
-        getProduct();
+        getOrderDetailList();
     }
 
     public void Save(Order order)
     {
         orderService.Insert(order);
-        navigator.NavigateTo("order-list");
-        //redirect to list page
+        //navigator.NavigateTo("order-list"); //redirect to list page
+
     }
 
     // OrderDetail
-    public void GetOrderDetail()
+    public void getOrderDetailList()
     {
-        orderDetailList = orderDetailService.GetAll();
-    }
-
-    private void DeleteOrderDetail(int idOrderDetail)
-    {
-        orderService.Delete(idOrderDetail);
-        orderDetailList.RemoveAll(x => x.idOrder == idOrderDetail);
+        orderDetailList = orderDetailService.getByIdOrder(order.idOrder);
     }
 
     public void getProduct()
     {
         yProduct = productService.GetById(orderDetail.productId);
+        orderDetail.description = yProduct.Description;
     }
 
-    public Double getTotal()
+    public string getProductx(int id)
+    {
+        string description;
+
+        yProduct = productService.GetById(id);
+        if (yProduct != null)
+            description = yProduct.Description;
+        else
+            description = "";
+
+        return description;
+    }
+
+    public string getProductName(int id)
+    {
+        yProduct = productService.GetById(id);
+        return yProduct.Name;
+    }
+
+    public Double getTotalOrderDetail()
     {
         return orderDetail.quantity * orderDetail.unitPrice;
+    }
+
+    public void insertOrderDetail()
+    {
+        orderDetail.idOrder = order.idOrder;
+        orderDetail.total = getTotalOrderDetail();
+        orderDetailService.Insert(orderDetail);
+
+        orderDetail = new();
+        getOrderDetailList();
+
+    }
+
+    public void addOrderRow()
+    {
+
     }
 }
