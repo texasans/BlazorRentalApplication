@@ -35,19 +35,21 @@
                 <td align="center">
                     <a @onclick="insertOrderDetail"><img src="icons/icon_delete_red.png" width="24" height="24"></a>
                 </td>
-                </tr>
+            </tr>
         }
         <tr>
+                
             <td>
-                <select id="xx" class="form-control" bind-value=@orderDetail.productId >
-                <option value="0">-- Select Product --</option>
+                    <!--<select class="form-control" @bind:event="getAsdf" @bind:get="orderDetail.productId">-->
+                    <select class="form-control" @onchange="getAsdf">
+                            <option value="0">-- Select Product --</option>
                 @foreach (var iProduct in productList)
                 {
                     <option value="@iProduct.ProductId">@iProduct.Name</option>
                 }
                 </select>
-                </td>
-            <td><input type="text" class="form-control" @bind-value="orderDetail.description"></td>
+        </td>
+                <!--    <td><input type="text" class="form-control" @bind-value="orderDetail.description"></td>-->
             <td><InputText class="form-control" @bind-Value="orderDetail.description"></InputText></td>
             <td><InputNumber class="form-control" @bind-Value="orderDetail.quantity"></InputNumber></td>
             <td><InputNumber class="form-control" @bind-Value="orderDetail.unitPrice"></InputNumber></td>
@@ -55,7 +57,7 @@
             <td align="center">
                     <a @onclick="insertOrderDetail"><img src="icons/icon_add_green.png" width="24" height="24"></a>
             </td>
-            </tr>
+        </tr>
     </tbody>
 </table>
 </EditForm>
@@ -68,6 +70,7 @@
     public List<OrderDetail> orderDetailList;
     public List<Products> productList = new List<Products>();
     public Products yProduct;
+    public int qq;
 
     protected override void OnInitialized()
     {
@@ -91,10 +94,18 @@
         orderDetailList = orderDetailService.getByIdOrder(order.idOrder);
     }
 
-    public void getProduct()
+    public void getAsdf(ChangeEventArgs e)
     {
+        int xx = Int32.Parse(e.Value.ToString());
+        orderDetail.productId = xx;
         yProduct = productService.GetById(orderDetail.productId);
         orderDetail.description = yProduct.Description;
+    }
+
+    public void getProductxx(int id)
+    {
+        yProduct = productService.GetById(orderDetail.productId);
+        //orderDetail.description = yProduct.Description;
     }
 
     public string getProductx(int id)
