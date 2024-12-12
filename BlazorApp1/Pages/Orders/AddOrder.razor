@@ -71,6 +71,7 @@
     public List<Products> productList = new List<Products>();
     public Products yProduct;
     public int qq;
+    public Boolean isOrderSaved;
 
     protected override void OnInitialized()
     {
@@ -79,11 +80,13 @@
         orderDetail = new();
         productList = productService.GetAll();
         getOrderDetailList();
+
+        isOrderSaved = false;
     }
 
     public void Save(Order order)
     {
-        orderService.Insert(order);
+        //orderService.Insert(order);
         //navigator.NavigateTo("order-list"); //redirect to list page
 
     }
@@ -134,6 +137,12 @@
 
     public void insertOrderDetail()
     {
+        if (!isOrderSaved)
+        {
+            orderService.Insert(order);
+            isOrderSaved = true;
+        }
+
         orderDetail.idOrder = order.idOrder;
         orderDetail.total = getTotalOrderDetail();
         orderDetailService.Insert(orderDetail);

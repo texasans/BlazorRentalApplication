@@ -46,7 +46,7 @@
         <InputText class="form-control" @bind-Value="xorder.note" placeholder="Enter order notes"></InputText>
     </label><br /><br />
 
-    <button type="submit" class="btn btn-primary">Add Detail</button><br /><br />
+    <!--<button type="submit" class="btn btn-primary">Add Detail</button><br /><br />-->
 </EditForm>
 
 @code {
@@ -68,7 +68,6 @@
     public void Save()
     {
         SaveOrder.InvokeAsync(xorder);
-
     }
 
 }
