@@ -6,7 +6,8 @@
 @inject OrderDetailService orderDetailService;
 @inject ProductsService productService;
 
-<h3>New Rental Order</h3>
+<h3>New Rental Order #: @order.idOrder</h3>
+<br />
 
 <ShowOrder xorder="order" SaveOrder="Save"></ShowOrder>
 
@@ -24,7 +25,8 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in orderDetailList)
+        @if (orderDetailList != null)
+        foreach (var item in orderDetailList)
         {
             <tr>
                 <td>@getProductName(item.productId)</td>
@@ -33,7 +35,7 @@
                 <td align="right">@item.unitPrice</td>
                 <td align="right">@(item.quantity * item.unitPrice)</td>
                 <td align="center">
-                    <a @onclick="insertOrderDetail"><img src="icons/icon_delete_red.png" width="24" height="24"></a>
+                            <a @onclick="() => deleteOrderDetail(item.item)"><img src="icons/icon_subtract_red16.webp" width="24" height="24"></a>
                 </td>
             </tr>
         }
@@ -55,7 +57,7 @@
             <td><InputNumber class="form-control" @bind-Value="orderDetail.unitPrice"></InputNumber></td>
             <td align="right">@getTotalOrderDetail()</td>
             <td align="center">
-                    <a @onclick="insertOrderDetail"><img src="icons/icon_add_green.png" width="24" height="24"></a>
+                    <a @onclick="insertOrderDetail"><img src="icons/icon_add_green10.png" width="24" height="24"></a>
             </td>
         </tr>
     </tbody>
@@ -79,7 +81,7 @@
         order = new();
         orderDetail = new();
         productList = productService.GetAll();
-        getOrderDetailList();
+        //getOrderDetailList();
 
         isOrderSaved = false;
     }
@@ -149,11 +151,17 @@
 
         orderDetail = new();
         getOrderDetailList();
-
     }
 
-    public void addOrderRow()
+    private string deleteOrderDetail(int id)
     {
+        //int id = Int32.Parse(e.ToString());
+        //string strId = e.Type;
+        //int id = 0; // = Int32.Parse(strId);
 
+
+        orderDetailService.Delete(id);
+        orderDetailList.RemoveAll(x => x.item == id);
+        return "";
     }
 }
