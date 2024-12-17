@@ -11,9 +11,8 @@
 
 <ShowOrder xorder="order" SaveOrder="Save"></ShowOrder>
 
-<EditForm Model="orderDetail" OnValidSubmit="insertOrderDetail">
-
-    <table class="table table-hover table-striped table-bordered">
+<EditForm Model="orderDetail">
+<table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
             <th>Product</th>
@@ -35,29 +34,26 @@
                 <td align="right">@item.unitPrice</td>
                 <td align="right">@(item.quantity * item.unitPrice)</td>
                 <td align="center">
-                            <a @onclick="() => deleteOrderDetail(item.item)"><img src="icons/icon_subtract_red16.webp" width="24" height="24"></a>
+                    <a @onclick="() => deleteOrderDetail(item.item)"><img src="icons/icon_subtract_red16.webp" width="24" height="24"></a>
                 </td>
             </tr>
         }
         <tr>
-                
             <td>
-                    <!--<select class="form-control" @bind:event="getAsdf" @bind:get="orderDetail.productId">-->
-                    <select class="form-control" @onchange="getAsdf">
-                            <option value="0">-- Select Product --</option>
+                <select class="form-control" @onchange="getAsdf">
+                    <option value="0">-- Select Product --</option>
                 @foreach (var iProduct in productList)
                 {
                     <option value="@iProduct.ProductId">@iProduct.Name</option>
                 }
                 </select>
-        </td>
-                <!--    <td><input type="text" class="form-control" @bind-value="orderDetail.description"></td>-->
+            </td>
             <td><InputText class="form-control" @bind-Value="orderDetail.description"></InputText></td>
             <td><InputNumber class="form-control" @bind-Value="orderDetail.quantity"></InputNumber></td>
             <td><InputNumber class="form-control" @bind-Value="orderDetail.unitPrice"></InputNumber></td>
             <td align="right">@getTotalOrderDetail()</td>
             <td align="center">
-                    <a @onclick="insertOrderDetail"><img src="icons/icon_add_green10.png" width="24" height="24"></a>
+                <a @onclick="insertOrderDetail"><img src="icons/icon_add_green10.png" width="24" height="24"></a>
             </td>
         </tr>
     </tbody>
@@ -155,11 +151,6 @@
 
     private string deleteOrderDetail(int id)
     {
-        //int id = Int32.Parse(e.ToString());
-        //string strId = e.Type;
-        //int id = 0; // = Int32.Parse(strId);
-
-
         orderDetailService.Delete(id);
         orderDetailList.RemoveAll(x => x.item == id);
         return "";
