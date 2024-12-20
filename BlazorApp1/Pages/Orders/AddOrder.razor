@@ -7,7 +7,8 @@
 @inject ProductsService productService;
 
 <h3>New Rental Order #: @order.idOrder</h3>
-<br />
+<button type="button" class="btn btn-primary">Save</button>&nbsp&nbsp
+<button type="button" class="btn btn-primary" @onclick="cancelForm">Cancel</button><br /><br />
 
 <ShowOrder xorder="order" SaveOrder="Save"></ShowOrder>
 
@@ -58,6 +59,7 @@
         </tr>
     </tbody>
 </table>
+<br />
 </EditForm>
 
 
@@ -154,5 +156,15 @@
         orderDetailService.Delete(id);
         orderDetailList.RemoveAll(x => x.item == id);
         return "";
+    }
+
+    public void cancelForm()
+    {
+        if (isOrderSaved)
+        {
+            orderService.Delete(order.idOrder);
+        }
+        navigator.NavigateTo("order-list"); //redirect to list page
+
     }
 }

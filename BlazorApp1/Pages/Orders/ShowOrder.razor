@@ -1,6 +1,13 @@
 ﻿@using BlazorApp1.Services;
 @inject CustomerService customerService;
 
+<style>
+    input[type=checkbox] {
+        accent-color: #0075ff;
+        width: 20px;
+        height: 20px;
+    }
+</style>
 
 <EditForm Model="xorder" OnValidSubmit="Save">
 
@@ -9,10 +16,6 @@
         <InputDate class="form-control" @bind-Value="xorder.date" placeholder="Enter order date"></InputDate>
     </label>
     <label>
-        <!--Customer:
-    <InputNumber class="form-control" @bind-Value="xorder.idCustomer" placeholder="Enter customer"></InputNumber>
-    </label><br />
-    <label> -->
         Customer:
         <InputSelect class="form-control" @bind-Value="xorder.idCustomer">
             <option value="0">-- Select Customer --</option>
@@ -41,8 +44,12 @@
     <label>
         Notes:
         <InputText class="form-control" @bind-Value="xorder.note" placeholder="Enter order notes"></InputText>
+    </label>
+    <label>
+        <strong>Is for Delivery:</strong>
+        <InputCheckbox @bind-Value="xorder.isDelivery" color></InputCheckbox>
+        
     </label><br /><br />
-
     <!--<button type="submit" class="btn btn-primary">Add Detail</button><br /><br />-->
 </EditForm>
 

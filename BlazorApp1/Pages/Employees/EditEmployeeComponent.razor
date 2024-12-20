@@ -27,13 +27,13 @@
         base.OnInitialized();
         Employee = context.Employee.Find(employeeId);
         CountryList = context.Country.ToList();
-        CityList = context.City.Where(x => x.CountryId == Employee.CountryId).ToList();
+        CityList = context.City.Where(x => x.idCountry == Employee.CountryId).ToList();
     }
 
     public void OnCountryChanged(int countryId)
     {
         Employee.CityId = 0;
-        CityList = context.City.Where(x => x.CountryId == countryId).ToList();
+        CityList = context.City.Where(x => x.idCountry == countryId).ToList();
     }
     public void Save()
     {

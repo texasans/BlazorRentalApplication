@@ -10,7 +10,8 @@
     CountryList="CountryList" 
     CityList="CityList"
     Employee="Employee" 
-    SaveEmployee="SaveEmployee"></AddEditEmployeeComponent>
+    SaveEmployee="SaveEmployee">
+</AddEditEmployeeComponent>
 
 @code {
 
@@ -29,7 +30,7 @@
     public void OnCountryChanged(int countryId)
     {
         Employee.CityId = 0;
-        CityList = context.City.Where(x => x.CountryId == countryId).ToList();
+        CityList = context.City.Where(x => x.idCountry == countryId).ToList();
     }
     public void SaveEmployee()
     {

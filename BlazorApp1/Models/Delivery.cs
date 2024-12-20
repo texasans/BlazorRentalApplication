@@ -4,12 +4,12 @@ using System.ComponentModel;
 
 namespace BlazorApp1.Models
 {
-    public class Order
+    public class Delivery
     {
         [Key]
-        [DisplayName("Order #")]
-        //[Display(Name = "Order #")]
+        public Int32 idDelivery { get; set; }
         public Int32 idOrder { get; set; }
+        public Int32 idDriver { get; set; }
         public DateTime date { get; set; } = DateTime.Now;
         public Int32 idCustomer { get; set; }
         public Int32 shippedFrom { get; set; }

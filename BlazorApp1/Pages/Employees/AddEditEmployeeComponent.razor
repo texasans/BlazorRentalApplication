@@ -20,7 +20,7 @@
         <option value="0">-- Select Country --</option>
         @foreach (var item in CountryList)
         {
-            <option value="@item.CountryId">@item.Name</option>
+            <option value="@item.idCountry">@item.Name</option>
         }
     </InputSelect>
     <br />
@@ -29,7 +29,7 @@
         <option value="0">-- Select City --</option>
         @foreach (var item in CityList)
         {
-            <option value="@item.CityId">@item.Name</option>
+            <option value="@item.idCity">@item.Name</option>
         }
     </InputSelect>
     <br />
