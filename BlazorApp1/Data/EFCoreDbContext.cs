@@ -19,8 +19,6 @@ namespace BlazorApp1.Data
             // optionsBuilder.UseMySql(@"Server=localhost;Database=BlazorApp-Test;User=root;Password=root;", );
         }
 
-
-
         //db sets
         public DbSet<Category> Category { get; set; }
         public DbSet<Products> Products { get; set; }

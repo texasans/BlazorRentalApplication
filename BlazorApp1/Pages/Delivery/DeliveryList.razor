@@ -13,19 +13,20 @@
     <thead>
         <tr>
             <th align="center">Order #</th>
-            <th align="center">Date</th>
             <th>Customer</th>
-            <th align="right">Items</th>
-            <th align="right">Total</th>
-            <th>Notes</th>
-            <th align="center">Delivery</th>
+            <th align="center">Zipcode</th>
+            <th align="center">Date Created</th>
+            <th align="center">Date Shipped</th>
+            <th align="center">Date Delivered</th>
+            <th>Driver</th>
+            <th align="right">Status</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in deliveryList)
         {
-            <DeliveryRow delivery="item"></DeliveryRow>
+            <DeliveryRow deliveryObj="item"></DeliveryRow>
         }
     </tbody>
 </table>

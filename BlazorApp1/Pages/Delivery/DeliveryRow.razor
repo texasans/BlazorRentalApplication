@@ -2,19 +2,19 @@
 @inject OrderService orderService;
 @inject CustomerService customerService;
 @inject NavigationManager navigator;
-
-
+@inject DeliveryService deliveryService;
 
 <tr>
-    <td align="center"><a href="edit-order/@order.idOrder">@order.idOrder</a></td>
-    <td>@order.date.ToString("MM/dd/yyyy")</td>
+    <td align="center"><a href="edit-order/@deliveryObj.idOrder">@deliveryObj.idOrder</a></td>
     <td>@yCustomer.FirstName</td>
-    <td align="right">@order.quantityOfItems.ToString()</td>
-    <td align="right">@order.totalAmount.ToString("c2")</td>
-    <td>@order.note</td>
-    <td align="center"><InputCheckbox @bind-Value="order.isDelivery" onclick="return false"></InputCheckbox></td>
+    <td>@deliveryObj.zipcode</td>
+    <td>@deliveryObj.dateCreated.ToString("MM/dd/yyyy")</td>
+    <td>@(deliveryObj.dateShipped != null ? deliveryObj.dateShipped : "")</td>
+    <td>@deliveryObj.dateDelivered</td>
+    <td>@deliveryObj.idDriver</td>
+    <td align="center">@deliveryObj.idDeliveryStatus</td>
     <td align="center">
-        <a href="edit-order/@order.idOrder"><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
+        <a href=""><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
         <a @onclick="Edit"><img src="icons/icon_delete_red.png" width="16" height="16"></a>
     </td>
 </tr> 
@@ -22,7 +22,7 @@
 @code
 {
     [Parameter]
-    public Delivery order { get; set; }
+    public Delivery deliveryObj { get; set; }
 
     public Customer yCustomer;
 
@@ -33,13 +33,12 @@
     }
 
     public void yCustomerName() {
-        yCustomer = customerService.GetById(order.idCustomer);
+        yCustomer = customerService.GetById(1);
     }
 
     public void Edit()
     {
-        navigator.NavigateTo($"edit-order/{order.idOrder}");
-
+        //navigator.NavigateTo($"edit-order/{order.idOrder}");
     }
 
     //Callback
