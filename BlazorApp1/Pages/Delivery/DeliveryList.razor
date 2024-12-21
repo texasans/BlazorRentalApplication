@@ -1,15 +1,13 @@
-﻿@page "/order-list"
+﻿@page "/delivery-list"
 
 <PageTitle>DELIVERIES</PageTitle>
 
 @using BlazorApp1.Data
 @using BlazorApp1.Services;
-@inject OrderService orderService;
+@inject DeliveryService deliveryService;
 
 
-<h1>Rental Orders</h1>
-
-<a href="./add-order">New Rental Order</a>
+<h1>Deliveries</h1>
 
 <table class="table table-hover table-striped table-bordered">
     <thead>
@@ -25,9 +23,9 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in orderList)
+        @foreach (var item in deliveryList)
         {
-            <OrderRow order="item" DeleteOrder="DeleteOrder"> </OrderRow>
+            <DeliveryRow delivery="item"></DeliveryRow>
         }
     </tbody>
 </table>
@@ -35,22 +33,16 @@
 
 
 @code {
-    public List<Order> orderList;
+    public List<Delivery> deliveryList;
 
-    public void GetOrders()
+    public void GetDeliveries()
     {
-        orderList = orderService.GetAll();
+        deliveryList = deliveryService.GetAll();
     }
 
     protected override void OnInitialized()
     {
-        GetOrders();
+        GetDeliveries();
         base.OnInitialized();   
-    }
-
-    private void DeleteOrder(int xidOrder)
-    {
-        orderService.Delete(xidOrder);
-        orderList.RemoveAll(x => x.idOrder == xidOrder);
     }
 }

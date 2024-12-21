@@ -22,7 +22,7 @@ namespace BlazorApp1.Services
         public void Delete(int id)
         {
             var obj = context.Delivery.Find(id);
-            context.Order.Remove(obj);
+            context.Delivery.Remove(obj);
             context.SaveChanges();
         }
 
@@ -38,7 +38,7 @@ namespace BlazorApp1.Services
 
         public Delivery Insert(Delivery obj)
         {
-            context.Order.Add(obj);
+            context.Delivery.Add(obj);
             context.SaveChanges();
             return obj;
         }

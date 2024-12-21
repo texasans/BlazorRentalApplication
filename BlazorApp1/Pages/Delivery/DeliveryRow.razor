@@ -5,31 +5,24 @@
 
 
 
-<tr><!-- @onclick="Edit" -->
+<tr>
     <td align="center"><a href="edit-order/@order.idOrder">@order.idOrder</a></td>
-    <!--<td><a @onclick="Edit">@order.idOrder</a></td>-->
     <td>@order.date.ToString("MM/dd/yyyy")</td>
     <td>@yCustomer.FirstName</td>
-    <!-- <td>@order.idCustomer</td> -->
-    <!-- <td>@order.shippedFrom</td>
-    <td>@order.shippedTo</td> -->
     <td align="right">@order.quantityOfItems.ToString()</td>
     <td align="right">@order.totalAmount.ToString("c2")</td>
     <td>@order.note</td>
     <td align="center"><InputCheckbox @bind-Value="order.isDelivery" onclick="return false"></InputCheckbox></td>
     <td align="center">
         <a href="edit-order/@order.idOrder"><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
-        <a @onclick="Delete"><img src="icons/icon_delete_red.png" width="16" height="16"></a>
+        <a @onclick="Edit"><img src="icons/icon_delete_red.png" width="16" height="16"></a>
     </td>
 </tr> 
 
 @code
 {
     [Parameter]
-    public Order order { get; set; }
-
-    [Parameter]
-    public EventCallback<int> DeleteOrder { get; set; }
+    public Delivery order { get; set; }
 
     public Customer yCustomer;
 
@@ -41,14 +34,8 @@
 
     public void yCustomerName() {
         yCustomer = customerService.GetById(order.idCustomer);
-        //string strCustomerName = yCustomer.FirstName + yCustomer.LastName;
     }
 
-    public void Delete()
-    {
-        DeleteOrder.InvokeAsync(order.idOrder);
-
-    }
     public void Edit()
     {
         navigator.NavigateTo($"edit-order/{order.idOrder}");

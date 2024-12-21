@@ -10,13 +10,14 @@ namespace BlazorApp1.Models
         public Int32 idDelivery { get; set; }
         public Int32 idOrder { get; set; }
         public Int32 idDriver { get; set; }
-        public DateTime date { get; set; } = DateTime.Now;
-        public Int32 idCustomer { get; set; }
-        public Int32 shippedFrom { get; set; }
-        public Int32 shippedTo { get; set; }
-        public Int32 quantityOfItems { get; set; }
-        public Double totalAmount { get; set; }
-        public String note { get; set; }
-        public Boolean isDelivery { get; set; } = false;
+        public String address { get; set; }
+        public Int32 idCity { get; set; }
+        public Int32 idState { get; set; }
+        public String zipcode { get; set; }
+        public DateTime dateCreated { get; set; } = DateTime.Now;
+        public DateTime dateShipped { get; set; }
+        public DateTime dateDelivered { get; set; }
+        public String recipient { get; set; }
+        public Int32 idDeliveryStatus { get; set; }
     }
 }
