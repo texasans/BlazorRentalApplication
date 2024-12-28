@@ -39,7 +39,7 @@ namespace BlazorApp1.Services
         public Order Insert(Order obj)
         {
             context.Order.Add(obj);
-            context.SaveChanges();
+            //context.SaveChanges();
             return obj;
         }
 
@@ -48,6 +48,11 @@ namespace BlazorApp1.Services
             context.Order.Update(obj);
             context.SaveChanges();
             return obj;
+        }
+
+        public void commitData()
+        {
+            context.SaveChanges();
         }
     }
 }

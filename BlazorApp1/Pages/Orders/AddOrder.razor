@@ -1,16 +1,17 @@
 ﻿
 @page "/add-order"
 @using BlazorApp1.Services;
-@inject OrderService orderService;
 @inject NavigationManager navigator;
+@inject OrderService orderService;
 @inject OrderDetailService orderDetailService;
+@inject DeliveryService deliveryService;
 @inject ProductsService productService;
 
 <h3>New Rental Order #: @order.idOrder</h3>
-<button type="button" class="btn btn-primary">Save</button>&nbsp&nbsp
+<button type="button" class="btn btn-primary" @onclick="saveForm">Save</button>&nbsp&nbsp
 <button type="button" class="btn btn-primary" @onclick="cancelForm">Cancel</button><br /><br />
 
-<ShowOrder xorder="order" SaveOrder="Save"></ShowOrder>
+<ShowOrder xorder="order" SaveOrder="Savex"></ShowOrder>
 
 <EditForm Model="orderDetail">
 <table class="table table-hover table-striped table-bordered">
@@ -67,24 +68,27 @@
 
     public Order order;
     public OrderDetail orderDetail;
+    public Delivery delivery;
     public List<OrderDetail> orderDetailList;
     public List<Products> productList = new List<Products>();
     public Products yProduct;
     public int qq;
     public Boolean isOrderSaved;
+    public Boolean isDeliverySaved;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         order = new();
         orderDetail = new();
+        delivery = new();
         productList = productService.GetAll();
         //getOrderDetailList();
 
         isOrderSaved = false;
     }
 
-    public void Save(Order order)
+    public void Savex(Order order)
     {
         //orderService.Insert(order);
         //navigator.NavigateTo("order-list"); //redirect to list page
@@ -140,15 +144,18 @@
         if (!isOrderSaved)
         {
             orderService.Insert(order);
+            //orderService.commitData();
             isOrderSaved = true;
+            orderDetailList = new();
         }
 
         orderDetail.idOrder = order.idOrder;
         orderDetail.total = getTotalOrderDetail();
         orderDetailService.Insert(orderDetail);
 
+        orderDetailList.Add(orderDetail);
         orderDetail = new();
-        getOrderDetailList();
+        //getOrderDetailList();
     }
 
     private string deleteOrderDetail(int id)
@@ -166,5 +173,20 @@
         }
         navigator.NavigateTo("order-list"); //redirect to list page
 
+    }
+
+    public void saveForm()
+    {
+        if (order.isDelivery)
+        {
+            delivery.idOrder = order.idOrder;
+            delivery.address = ""; // debe ser nulo
+            delivery.zipcode = ""; // debe ser nulo
+            delivery.dateCreated = order.date;
+            delivery.idDeliveryStatus = 1;
+            deliveryService.Insert(delivery);
+        }
+        orderService.commitData();
+        navigator.NavigateTo("order-list"); //redirect to list page
     }
 }

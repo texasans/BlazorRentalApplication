@@ -6,9 +6,9 @@ namespace BlazorApp1.Models
 {
     public class Order
     {
-        [Key]
-        [DisplayName("Order #")]
+        //[DisplayName("Order #")]
         //[Display(Name = "Order #")]
+        [Key]
         public Int32 idOrder { get; set; }
         public DateTime date { get; set; } = DateTime.Now;
         public Int32 idCustomer { get; set; }

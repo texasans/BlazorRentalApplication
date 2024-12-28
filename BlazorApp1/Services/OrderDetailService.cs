@@ -24,7 +24,7 @@ namespace BlazorApp1.Services
         {
             var obj = context.OrderDetail.Find(id);
             context.OrderDetail.Remove(obj);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
 
         public List<OrderDetail> GetAll()
@@ -50,7 +50,7 @@ namespace BlazorApp1.Services
         public OrderDetail Insert(OrderDetail obj)
         {
             context.OrderDetail.Add(obj);
-            context.SaveChanges();
+            //context.SaveChanges();
             return obj;
         }
 

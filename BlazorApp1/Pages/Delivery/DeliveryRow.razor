@@ -5,12 +5,13 @@
 @inject DeliveryService deliveryService;
 
 <tr>
-    <td align="center"><a href="edit-order/@deliveryObj.idOrder">@deliveryObj.idOrder</a></td>
+    <td align="center"><a href="">@deliveryObj.idOrder</a></td>
     <td>@yCustomer.FirstName</td>
     <td>@deliveryObj.zipcode</td>
     <td>@deliveryObj.dateCreated.ToString("MM/dd/yyyy")</td>
-    <td>@(deliveryObj.dateShipped != null ? deliveryObj.dateShipped : "")</td>
-    <td>@deliveryObj.dateDelivered</td>
+    <!--    <td>@(deliveryObj.dateShipped != null ? deliveryObj.dateShipped : "")</td>-->
+    <td>@deliveryObj.dateShipped?.ToString("MM/dd/yyyy")</td>
+    <td>@deliveryObj.dateDelivered?.ToString("MM/dd/yyyy")</td>
     <td>@deliveryObj.idDriver</td>
     <td align="center">@deliveryObj.idDeliveryStatus</td>
     <td align="center">
@@ -40,7 +41,5 @@
     {
         //navigator.NavigateTo($"edit-order/{order.idOrder}");
     }
-
-    //Callback
 }
 
