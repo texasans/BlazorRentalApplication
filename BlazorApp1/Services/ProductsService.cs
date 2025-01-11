@@ -7,6 +7,7 @@ namespace BlazorApp1.Services
     public interface IProductsService 
     {
         List<Products> GetAll();
+
         Products GetById(int id);
         Products Insert(Products obj);
         Products Update(Products obj);

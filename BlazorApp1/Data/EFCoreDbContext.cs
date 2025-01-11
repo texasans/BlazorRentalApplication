@@ -1,5 +1,7 @@
 ﻿using BlazorApp1.Models;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BlazorApp1.Data
 {
@@ -15,8 +17,12 @@ namespace BlazorApp1.Data
 
             //optionsBuilder.UseMySql(connectionString, serverVersion);
 
-            optionsBuilder.UseSqlServer(@"Server=HASRAPIDO\SQLEXPRESS;Database=BlazorApp-Test; Trusted_Connection=True;");
+            //optionsBuilder.UseSqlServer(@"Server=tcp:myfreesql2025.database.windows.net,1433;Database=myFreeDB; Trusted_Connection=True;User=superadmin;Password=Turbo@20052019");
             // optionsBuilder.UseMySql(@"Server=localhost;Database=BlazorApp-Test;User=root;Password=root;", );
+            optionsBuilder.UseSqlServer(@"Server =tcp:myfreesql2025.database.windows.net,1433; Initial Catalog = myFreeDB; Persist Security Info = False; User ID = superadmin; Password =Turbo@20052019; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;");
+
+
+
         }
 
         //db sets
