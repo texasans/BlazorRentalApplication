@@ -39,7 +39,7 @@ namespace BlazorApp1.Services
         public Delivery Insert(Delivery obj)
         {
             context.Delivery.Add(obj);
-            context.SaveChanges();
+            //context.SaveChanges();
             return obj;
         }
 

@@ -1,0 +1,60 @@
+﻿@page "/master-table-list"
+
+<PageTitle>MASTER TABLES</PageTitle>
+
+<h1>Master Tables</h1>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th align="center">Level</th>
+            <th align="center">Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center">
+                <a href="product-list">@(level++)</a>
+            </td>
+            <td>
+                <a href="product-list">Product</a>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <a href="customers">@(level++)</a>
+            </td>
+            <td>
+                <a href="customers">Customers</a>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <a href="employee-list">@(level++)</a>
+            </td>
+            <td>
+                <a href="employee-list">Employees</a>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <a href="category">@(level++)</a>
+            </td>
+            <td>
+                <a href="category">Categories</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+@code {
+    public int level = 1;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}

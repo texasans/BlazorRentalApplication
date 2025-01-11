@@ -143,15 +143,15 @@
     {
         if (!isOrderSaved)
         {
-            orderService.Insert(order);
+            //orderService.Insert(order);
             //orderService.commitData();
             isOrderSaved = true;
             orderDetailList = new();
         }
 
-        orderDetail.idOrder = order.idOrder;
-        orderDetail.total = getTotalOrderDetail();
-        orderDetailService.Insert(orderDetail);
+        /*   orderDetail.idOrder = order.idOrder;
+              orderDetail.total = getTotalOrderDetail();
+              orderDetailService.Insert(orderDetail);*/
 
         orderDetailList.Add(orderDetail);
         orderDetail = new();
@@ -177,6 +177,22 @@
 
     public void saveForm()
     {
+        orderService.Insert(order); //
+        orderService.commitData(); ////
+
+        int quantityOfItems = 0;
+        double totalAmount = 0;
+        foreach (var obj in orderDetailList)
+        {
+            obj.idOrder = order.idOrder;
+            obj.total = obj.quantity * obj.unitPrice;
+            quantityOfItems++;
+            totalAmount += obj.total;
+            orderDetailService.Insert(obj); //
+        }
+        order.quantityOfItems = quantityOfItems;
+        order.totalAmount = totalAmount;
+
         if (order.isDelivery)
         {
             delivery.idOrder = order.idOrder;
@@ -186,7 +202,9 @@
             delivery.idDeliveryStatus = 1;
             deliveryService.Insert(delivery);
         }
-        orderService.commitData();
-        navigator.NavigateTo("order-list"); //redirect to list page
+
+        orderService.commitData(); ////
+
+        navigator.NavigateTo("order-list");
     }
 }

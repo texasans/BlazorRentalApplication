@@ -7,7 +7,7 @@ namespace BlazorApp1.Models
     public class OrderDetail
     {
         [ForeignKey("Order")]
-        public Int32 idOrder { get; set; }
+        public int idOrder { get; set; }
         [Key]
         public Int32 item { get; set; }
         public Int32 productId { get; set; }

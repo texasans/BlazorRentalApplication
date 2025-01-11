@@ -26,15 +26,18 @@
     public Delivery deliveryObj { get; set; }
 
     public Customer yCustomer;
+    public Order order;
+
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        order = orderService.GetById(deliveryObj.idOrder);
         yCustomerName();
     }
 
     public void yCustomerName() {
-        yCustomer = customerService.GetById(1);
+        yCustomer = customerService.GetById(order.idCustomer);
     }
 
     public void Edit()

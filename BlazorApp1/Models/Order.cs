@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 //using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorApp1.Models
@@ -8,8 +9,9 @@ namespace BlazorApp1.Models
     {
         //[DisplayName("Order #")]
         //[Display(Name = "Order #")]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public Int32 idOrder { get; set; }
+        public int idOrder { get; set; }
         public DateTime date { get; set; } = DateTime.Now;
         public Int32 idCustomer { get; set; }
         public Int32 shippedFrom { get; set; }

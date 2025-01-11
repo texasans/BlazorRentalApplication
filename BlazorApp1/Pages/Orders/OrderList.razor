@@ -7,7 +7,7 @@
 @inject OrderService orderService;
 
 
-<h1>Rental Orders</h1>
+<h1>Orders</h1>
 
 <a href="./add-order">New Rental Order</a>
 
@@ -40,6 +40,7 @@
     public void GetOrders()
     {
         orderList = orderService.GetAll();
+        orderList = orderList.OrderByDescending(Order => Order.idOrder).ToList();
     }
 
     protected override void OnInitialized()
