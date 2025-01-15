@@ -25,9 +25,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in deliveryList)
+        @if (deliveryList != null)
         {
-            <DeliveryRow deliveryObj="item"></DeliveryRow>
+            foreach (var item in deliveryList)
+            {
+                <DeliveryRow deliveryObj="item"></DeliveryRow>
+            }
         }
     </tbody>
 </table>

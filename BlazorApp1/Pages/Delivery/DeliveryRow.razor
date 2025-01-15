@@ -6,17 +6,16 @@
 
 <tr>
     <td align="center"><a href="">@deliveryObj.idOrder</a></td>
-    <td>@yCustomer.FirstName</td>
+    <td>@getCustomerName()</td>
     <td>@deliveryObj.zipcode</td>
     <td>@deliveryObj.dateCreated.ToString("MM/dd/yyyy")</td>
     <!--    <td>@(deliveryObj.dateShipped != null ? deliveryObj.dateShipped : "")</td>-->
     <td>@deliveryObj.dateShipped?.ToString("MM/dd/yyyy")</td>
     <td>@deliveryObj.dateDelivered?.ToString("MM/dd/yyyy")</td>
     <td>@deliveryObj.idDriver</td>
-    <td align="center">@deliveryObj.idDeliveryStatus</td>
+    <td align="center">@getDeliveryStatus()</td>
     <td align="center">
-        <a href=""><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
-        <a @onclick="Edit"><img src="icons/icon_delete_red.png" width="16" height="16"></a>
+        <button type="button" class="btn btn-secondary">Send Offers</button>
     </td>
 </tr> 
 
@@ -25,7 +24,6 @@
     [Parameter]
     public Delivery deliveryObj { get; set; }
 
-    public Customer yCustomer;
     public Order order;
 
 
@@ -33,11 +31,31 @@
     {
         base.OnInitialized();
         order = orderService.GetById(deliveryObj.idOrder);
-        yCustomerName();
+        //get DeliveryStatus
     }
 
-    public void yCustomerName() {
-        yCustomer = customerService.GetById(order.idCustomer);
+    public string getCustomerName() {
+        Customer yCustomer;
+        string strCustomerName = "";
+
+        if (order != null)
+        {
+            yCustomer = customerService.GetById(order.idCustomer);
+            strCustomerName = yCustomer.FirstName;
+        }
+        return strCustomerName;
+    }
+
+    public string getDeliveryStatus()
+    {
+        string strDescription = "";
+        if (deliveryObj.idDeliveryStatus == 1)
+            strDescription = "created";
+        else if (deliveryObj.idDeliveryStatus == 2)
+            strDescription = "shipped";
+        else
+            strDescription = "delivered";
+        return strDescription;
     }
 
     public void Edit()

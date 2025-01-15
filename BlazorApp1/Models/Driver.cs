@@ -13,8 +13,8 @@ namespace BlazorApp1.Models
         public String address { get; set; }
         public Int32 idCity { get; set; }
         public Int32 idState { get; set; }
-        public Int32 idCountry { get; set; }
         public String zipcode { get; set; }
+        public Int32 idCountryFrom { get; set; }
         public Int32 idVehicleType { get; set; }
         public String vehicleModel { get; set; }
         public String vehicleBrand { get; set; }

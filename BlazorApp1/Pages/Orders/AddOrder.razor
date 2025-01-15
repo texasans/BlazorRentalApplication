@@ -172,7 +172,6 @@
             orderService.Delete(order.idOrder);
         }
         navigator.NavigateTo("order-list"); //redirect to list page
-
     }
 
     public void saveForm()
@@ -196,8 +195,10 @@
         if (order.isDelivery)
         {
             delivery.idOrder = order.idOrder;
-            delivery.address = ""; // debe ser nulo
-            delivery.zipcode = ""; // debe ser nulo
+            delivery.address = ""; // all address comes from customer
+            delivery.idCity = 1;
+            delivery.idState = 1;
+            delivery.zipcode = "77041";
             delivery.dateCreated = order.date;
             delivery.idDeliveryStatus = 1;
             deliveryService.Insert(delivery);

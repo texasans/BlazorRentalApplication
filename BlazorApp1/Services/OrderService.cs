@@ -52,6 +52,7 @@ namespace BlazorApp1.Services
 
         public void commitData()
         {
+            //colocar try catch
             context.SaveChanges();
         }
     }
