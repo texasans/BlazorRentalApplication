@@ -3,8 +3,6 @@
 @inject CustomerService customerService;
 @inject NavigationManager navigator;
 
-
-
 <tr><!-- @onclick="Edit" -->
     <td align="center"><a href="edit-order/@order.idOrder">@order.idOrder</a></td>
     <!--<td><a @onclick="Edit">@order.idOrder</a></td>-->
@@ -16,14 +14,15 @@
     <td align="right">@order.quantityOfItems.ToString()</td>
     <td align="right">@order.totalAmount.ToString("c2")</td>
     <td>@order.note</td>
-    <td align="center"><InputCheckbox @bind-Value="order.isDelivery" onclick="return false"></InputCheckbox></td>
+    <!--<td align="center"><InputCheckbox @bind-Value="order.isDelivery" onclick="return false"></InputCheckbox></td>-->
+    <td align="center">
+        <a href="delivery-status"><img src=@getDeliveryStatusImage() onerror="this.onerror=null; this.remove();" width="24" height="24" /></a>
+    </td>
     <td align="center">
         <a href="edit-order/@order.idOrder"><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
         <a @onclick="Delete"><img src="icons/icon_delete_red.png" width="16" height="16"></a>
     </td>
 </tr> 
-
-
 
 
 @code
@@ -50,14 +49,35 @@
     public void Delete()
     {
         DeleteOrder.InvokeAsync(order.idOrder);
-
     }
+
     public void Edit()
     {
         navigator.NavigateTo($"edit-order/{order.idOrder}");
+    }
+    //Callback
 
+    public string getDeliveryStatusImage()
+    {
+        string strImageName = "";
+        if (order.isDelivery)
+            strImageName = "icons/blue-checked-button.jpg";
+        else
+            strImageName = "";
+        return strImageName;
     }
 
-    //Callback
+    public string getDeliveryStatusColumn()
+    {
+        string strStatusColumn;
+
+        if (order.isDelivery)
+            strStatusColumn = "<a href=\"delivery - status\"><img src=@getDeliveryStatusImage() width=\"24\" height=\"24\" /></a>";
+        else
+            strStatusColumn = "";
+        return strStatusColumn;
+    }
+                
+            
 }
 

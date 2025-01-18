@@ -17,6 +17,7 @@ builder.Services.AddTransient<OrderDetailService>();
 builder.Services.AddTransient<ProductsService>();
 builder.Services.AddTransient<CustomerService>();
 builder.Services.AddTransient<DeliveryService>();
+builder.Services.AddTransient<OfferDeliveryService>();
 
 var app = builder.Build();
 

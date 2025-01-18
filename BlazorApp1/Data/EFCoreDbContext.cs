@@ -35,5 +35,6 @@ namespace BlazorApp1.Data
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderDetail> OrderDetail { get; set; }
         public DbSet<Delivery> Delivery { get; set; }
+        public DbSet<OfferDelivery> OfferDelivery { get; set; }
     }
 }

@@ -1,6 +1,6 @@
-﻿@page "/delivery-list"
+﻿@page "/send-offers"
 
-<PageTitle>DELIVERIES</PageTitle>
+<PageTitle>SEND OFFERS</PageTitle>
 
 @using BlazorApp1.Data
 @using BlazorApp1.Services;
@@ -27,24 +27,9 @@
     <tbody>
         @if (deliveryList != null)
         {
-            if (showPopup)
-            {
-                <div class="modal" tabindex="-1" style="display:block" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <p>Send Offers to Drivers</p>
-                                <a>@selectedId</a>
-                                <button type="button" class="close" @onclick="closePopup"><span aria-hidden="true">Close</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-
             foreach (var item in deliveryList)
             {
-                <DeliveryRow deliveryObj="item" paramMethodAndId="sendOffersParent"></DeliveryRow>
+                <DeliveryRow deliveryObj="item"></DeliveryRow>
             }
         }
     </tbody>
@@ -54,9 +39,6 @@
 
 @code {
     public List<Delivery> deliveryList;
-
-    public bool showPopup = false;
-    public int selectedId;
 
     public void GetDeliveries()
     {
@@ -69,16 +51,5 @@
     {
         GetDeliveries();
         base.OnInitialized();   
-    }
-
-    public void sendOffersParent(int id)
-    {
-        selectedId = id;
-        showPopup = true;
-    }
-
-    public void closePopup()
-    {
-        showPopup = false;
     }
 }

@@ -7,60 +7,60 @@
 @inject DeliveryService deliveryService;
 @inject ProductsService productService;
 
-<h3>New Rental Order #: @order.idOrder</h3>
+<h3>New Order #@order.idOrder</h3>
 <button type="button" class="btn btn-primary" @onclick="saveForm">Save</button>&nbsp&nbsp
 <button type="button" class="btn btn-primary" @onclick="cancelForm">Cancel</button><br /><br />
 
 <ShowOrder xorder="order" SaveOrder="Savex"></ShowOrder>
 
 <EditForm Model="orderDetail">
-<table class="table table-hover table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Description</th>
-            <th>Quantity</th>
-            <th align="right">Unit Price</th>
-            <th align="right">Total</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (orderDetailList != null)
-        foreach (var item in orderDetailList)
-        {
+    <table class="table table-hover table-striped table-bordered">
+        <thead>
             <tr>
-                <td>@getProductName(item.productId)</td>
-                <td>@item.description</td>
-                <td align="right">@item.quantity</td>
-                <td align="right">@item.unitPrice</td>
-                <td align="right">@(item.quantity * item.unitPrice)</td>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th align="right">Unit Price</th>
+                <th align="right">Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (orderDetailList != null)
+                foreach (var item in orderDetailList)
+                {
+                    <tr>
+                        <td>@getProductName(item.productId)</td>
+                        <td>@item.description</td>
+                        <td align="right">@item.quantity</td>
+                        <td align="right">@item.unitPrice</td>
+                        <td align="right">@(item.quantity * item.unitPrice)</td>
+                        <td align="center">
+                            <a @onclick="() => deleteOrderDetail(item.item)"><img src="icons/icon_subtract_red16.webp" width="24" height="24"></a>
+                        </td>
+                    </tr>
+                }
+            <tr>
+                <td>
+                    <select class="form-control" @onchange="getAsdf">
+                        <option value="0">-- Select Product --</option>
+                        @foreach (var iProduct in productList)
+                        {
+                            <option value="@iProduct.ProductId">@iProduct.Name</option>
+                        }
+                    </select>
+                </td>
+                <td><InputText class="form-control" @bind-Value="orderDetail.description"></InputText></td>
+                <td><InputNumber class="form-control" @bind-Value="orderDetail.quantity"></InputNumber></td>
+                <td><InputNumber class="form-control" @bind-Value="orderDetail.unitPrice"></InputNumber></td>
+                <td align="right">@getTotalOrderDetail()</td>
                 <td align="center">
-                    <a @onclick="() => deleteOrderDetail(item.item)"><img src="icons/icon_subtract_red16.webp" width="24" height="24"></a>
+                    <a @onclick="insertOrderDetail"><img src="icons/icon_add_green10.png" width="24" height="24"></a>
                 </td>
             </tr>
-        }
-        <tr>
-            <td>
-                <select class="form-control" @onchange="getAsdf">
-                    <option value="0">-- Select Product --</option>
-                @foreach (var iProduct in productList)
-                {
-                    <option value="@iProduct.ProductId">@iProduct.Name</option>
-                }
-                </select>
-            </td>
-            <td><InputText class="form-control" @bind-Value="orderDetail.description"></InputText></td>
-            <td><InputNumber class="form-control" @bind-Value="orderDetail.quantity"></InputNumber></td>
-            <td><InputNumber class="form-control" @bind-Value="orderDetail.unitPrice"></InputNumber></td>
-            <td align="right">@getTotalOrderDetail()</td>
-            <td align="center">
-                <a @onclick="insertOrderDetail"><img src="icons/icon_add_green10.png" width="24" height="24"></a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<br />
+        </tbody>
+    </table>
+    <br />
 </EditForm>
 
 
@@ -75,6 +75,7 @@
     public int qq;
     public Boolean isOrderSaved;
     public Boolean isDeliverySaved;
+    public int idOrderDetailList = 0;
 
     protected override void OnInitialized()
     {
@@ -152,17 +153,19 @@
         /*   orderDetail.idOrder = order.idOrder;
               orderDetail.total = getTotalOrderDetail();
               orderDetailService.Insert(orderDetail);*/
-
+        
+        idOrderDetailList++;
+        orderDetail.item = idOrderDetailList;
         orderDetailList.Add(orderDetail);
         orderDetail = new();
         //getOrderDetailList();
     }
 
-    private string deleteOrderDetail(int id)
+    private void deleteOrderDetail(int id)
     {
-        orderDetailService.Delete(id);
+        //orderDetailService.Delete(id);
         orderDetailList.RemoveAll(x => x.item == id);
-        return "";
+        //return "";
     }
 
     public void cancelForm()
@@ -183,6 +186,7 @@
         double totalAmount = 0;
         foreach (var obj in orderDetailList)
         {
+            obj.item = 0;
             obj.idOrder = order.idOrder;
             obj.total = obj.quantity * obj.unitPrice;
             quantityOfItems++;

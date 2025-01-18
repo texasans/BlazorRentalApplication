@@ -15,7 +15,7 @@
     <td>@deliveryObj.idDriver</td>
     <td align="center">@getDeliveryStatus()</td>
     <td align="center">
-        <button type="button" class="btn btn-secondary">Send Offers</button>
+        <button type="button" class="btn btn-secondary" @onclick="sendOffersChild">Send Offers</button>
     </td>
 </tr> 
 
@@ -24,8 +24,10 @@
     [Parameter]
     public Delivery deliveryObj { get; set; }
 
-    public Order order;
+    [Parameter]
+    public EventCallback<int> paramMethodAndId { get; set; }
 
+    public Order order;
 
     protected override void OnInitialized()
     {
@@ -61,6 +63,11 @@
     public void Edit()
     {
         //navigator.NavigateTo($"edit-order/{order.idOrder}");
+    }
+
+    public void sendOffersChild()
+    {
+        paramMethodAndId.InvokeAsync(deliveryObj.idOrder);
     }
 }
 
