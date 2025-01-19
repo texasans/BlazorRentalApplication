@@ -3,7 +3,8 @@
 @inject CustomerService customerService;
 @inject NavigationManager navigator;
 
-<tr><!-- @onclick="Edit" -->
+<tr @onchange="yCustomerName">
+    <!-- @onclick="Edit" -->
     <td align="center"><a href="edit-order/@order.idOrder">@order.idOrder</a></td>
     <!--<td><a @onclick="Edit">@order.idOrder</a></td>-->
     <td>@order.date.ToString("MM/dd/yyyy")</td>

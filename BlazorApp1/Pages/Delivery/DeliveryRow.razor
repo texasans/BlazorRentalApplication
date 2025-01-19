@@ -67,7 +67,8 @@
 
     public void sendOffersChild()
     {
-        paramMethodAndId.InvokeAsync(deliveryObj.idOrder);
+        navigator.NavigateTo($"send-text-message/{deliveryObj.idOrder}");
+        //paramMethodAndId.InvokeAsync(deliveryObj.idOrder);
     }
 }
 

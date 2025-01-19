@@ -1,0 +1,54 @@
+﻿@page "/send-text-message/{idOrder:int}";
+@using BlazorApp1.Services;
+@inject OrderService orderService;
+@inject NavigationManager navigator;
+
+<h3>Send Text Message to Drivers for delivery an Order #@idOrder</h3>
+<EditForm Model="textMessage">
+    <label>
+        Phone number From:
+        <InputText class="form-control" @bind-Value="textMessage.phoneNumberFrom" placeholder="From"></InputText>
+    </label>
+    <label>
+        Phone number To:
+        <InputText class="form-control" @bind-Value="textMessage.phoneNumberTo" placeholder="To"></InputText>
+    </label>
+    <label>
+        Message:
+        <InputText class="form-control" @bind-Value="textMessage.myMessage" placeholder="Text"></InputText>
+    </label>
+
+    <!--<button type="submit" class="btn btn-primary">Add Detail</button><br /><br />-->
+</EditForm>
+<br />
+<button type="button" class="btn btn-primary" @onclick="sendTextMessageNow">Send Now</button>
+
+
+@code {
+
+    [Parameter]
+    public int idOrder { get; set; }
+
+    public Order order;
+    public TextMessage textMessage;
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        textMessage = new TextMessage();
+    }
+
+    public void Save()
+    {
+    }
+
+    public void sendTextMessageNow()
+    {
+        string strMessage;
+
+        strMessage = "Order #" + idOrder.ToString() + " - " + textMessage.myMessage;
+        textMessage.send(textMessage.phoneNumberTo, textMessage.phoneNumberFrom, strMessage);
+        navigator.NavigateTo("delivery-list");
+    }
+}
