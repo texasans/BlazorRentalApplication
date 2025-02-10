@@ -32,6 +32,7 @@ namespace BlazorApp1.Data
         public DbSet<City> City { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Customer> Customer { get; set; }
+        public DbSet<Driver> Driver { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderDetail> OrderDetail { get; set; }
         public DbSet<Delivery> Delivery { get; set; }

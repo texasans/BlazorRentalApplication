@@ -1,0 +1,42 @@
+﻿@using BlazorApp1.Services;
+@inject OrderService orderService;
+@inject CustomerService customerService;
+@inject NavigationManager navigator;
+
+<tr>
+    <td align="center"><a href="edit-driver/@driverObj.idDriver">@driverObj.idDriver</a></td>
+    <td>@driverObj.firstName</td>
+    <td>@driverObj.lastName</td>
+    <td align="right">@driverObj.phoneNumber</td>
+    <td>@driverObj.email</td>
+    <td>@driverObj.driverLicense</td>
+    <td>@driverObj.address</td>
+    <td>@driverObj.zipcode</td>
+    <td>@driverObj.vehicleVIN</td>
+
+    <td align="center">
+        <a href="edit-driver/@driverObj.idDriver"><img src="icons/icon_edit_blue.png" width="16" height="16"></a>&nbsp
+        <a @onclick="delete"><img src="icons/icon_delete_red.png" width="16" height="16"></a>
+    </td>
+</tr> 
+
+
+@code
+{
+    [Parameter]
+    public Driver driverObj { get; set; }
+
+    [Parameter]
+    public EventCallback<int> deleteDriver { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    public void delete()
+    {
+        deleteDriver.InvokeAsync(driverObj.idDriver);
+    }
+}

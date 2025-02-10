@@ -48,7 +48,14 @@
         string strMessage;
 
         strMessage = "Order #" + idOrder.ToString() + " - " + textMessage.myMessage;
-        textMessage.send(textMessage.phoneNumberTo, textMessage.phoneNumberFrom, strMessage);
-        navigator.NavigateTo("delivery-list");
+        try {
+            textMessage.send(textMessage.phoneNumberTo, textMessage.phoneNumberFrom, strMessage);
+            navigator.NavigateTo("delivery-list");
+        }
+        catch (Exception e) {
+            string additionalErrorMessage = "Additional Error Message: Paga tigre jajaja...";
+            string originalErrorMessage = "Original Error Message: " + e.Message;
+            navigator.NavigateTo("error/" + additionalErrorMessage + "/" + originalErrorMessage);
+        }
     }
 }

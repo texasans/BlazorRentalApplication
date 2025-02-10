@@ -1,0 +1,24 @@
+﻿@page "/error/{additionalErrorMessage}/{originalErrorMessage}"
+@inject NavigationManager navigator;
+
+<PageTitle>Error</PageTitle>
+
+<h1>Order App Error</h1>
+
+<p role="status">@additionalErrorMessage</p>
+<p role="status"><b>@originalErrorMessage</b></p>
+
+<button class="btn btn-primary" @onclick="redirectPage">Back</button>
+
+@code {
+    [Parameter]
+    public string additionalErrorMessage { get; set; }
+
+    [Parameter]
+    public string originalErrorMessage { get; set; }
+
+    private void redirectPage()
+    {
+        navigator.NavigateTo("delivery-list");
+    }
+}

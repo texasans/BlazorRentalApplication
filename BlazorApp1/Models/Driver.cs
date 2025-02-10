@@ -7,8 +7,10 @@ namespace BlazorApp1.Models
     {
         [Key]
         public Int32 idDriver { get; set; }
-        public String firsName { get; set; }
+        public String firstName { get; set; }
         public String lastName { get; set; }
+        public String phoneNumber { get; set; }
+        public String email { get; set; }
         public String driverLicense { get; set; }
         public String address { get; set; }
         public Int32 idCity { get; set; }
@@ -21,6 +23,6 @@ namespace BlazorApp1.Models
         public String vehicleVIN { get; set; }
         public Int32 vehicleYear { get; set; }
         public String vehicleColor { get; set; }
-        public Int32 idDriverStatus{ get; set; }
+        public Int32 idDriverStatus { get; set; }
     }
 }

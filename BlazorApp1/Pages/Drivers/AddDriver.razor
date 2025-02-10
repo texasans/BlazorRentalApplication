@@ -1,0 +1,215 @@
+﻿
+@page "/add-driver"
+@using BlazorApp1.Services;
+@inject NavigationManager navigator;
+@inject OrderService orderService;
+@inject OrderDetailService orderDetailService;
+@inject DeliveryService deliveryService;
+@inject ProductsService productService;
+
+<h3>New Driver</h3>
+<button type="button" class="btn btn-primary" @onclick="saveForm">Save</button>&nbsp&nbsp
+<button type="button" class="btn btn-primary" @onclick="cancelForm">Cancel</button><br /><br />
+
+<ShowOrder xorder="order" SaveOrder="Savex"></ShowOrder>
+
+<EditForm Model="orderDetail">
+    <table class="table table-hover table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th align="right">Unit Price</th>
+                <th align="right">Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (orderDetailList != null)
+                foreach (var item in orderDetailList)
+                {
+                    <tr>
+                        <td>@getProductName(item.productId)</td>
+                        <td>@item.description</td>
+                        <td align="right">@item.quantity</td>
+                        <td align="right">@item.unitPrice</td>
+                        <td align="right">@(item.quantity * item.unitPrice)</td>
+                        <td align="center">
+                            <a @onclick="() => deleteOrderDetail(item.item)"><img src="icons/icon_subtract_red16.webp" width="24" height="24"></a>
+                        </td>
+                    </tr>
+                }
+            <tr>
+                <td>
+                    <select class="form-control" @onchange="getAsdf">
+                        <option value="0">-- Select Product --</option>
+                        @foreach (var iProduct in productList)
+                        {
+                            <option value="@iProduct.ProductId">@iProduct.Name</option>
+                        }
+                    </select>
+                </td>
+                <td><InputText class="form-control" @bind-Value="orderDetail.description"></InputText></td>
+                <td><InputNumber class="form-control" @bind-Value="orderDetail.quantity"></InputNumber></td>
+                <td><InputNumber class="form-control" @bind-Value="orderDetail.unitPrice"></InputNumber></td>
+                <td align="right">@getTotalOrderDetail()</td>
+                <td align="center">
+                    <a @onclick="insertOrderDetail"><img src="icons/icon_add_green10.png" width="24" height="24"></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+</EditForm>
+
+
+@code {
+
+    public Order order;
+    public OrderDetail orderDetail;
+    public Delivery delivery;
+    public List<OrderDetail> orderDetailList;
+    public List<Products> productList = new List<Products>();
+    public Products yProduct;
+    public int qq;
+    public Boolean isOrderSaved;
+    public Boolean isDeliverySaved;
+    public int idOrderDetailList = 0;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        order = new();
+        orderDetail = new();
+        delivery = new();
+        productList = productService.GetAll();
+        //getOrderDetailList();
+
+        isOrderSaved = false;
+    }
+
+    public void Savex(Order order)
+    {
+        //orderService.Insert(order);
+        //navigator.NavigateTo("order-list"); //redirect to list page
+
+    }
+
+    // OrderDetail
+    public void getOrderDetailList()
+    {
+        orderDetailList = orderDetailService.getByIdOrder(order.idOrder);
+    }
+
+    public void getAsdf(ChangeEventArgs e)
+    {
+        int xx = Int32.Parse(e.Value.ToString());
+        orderDetail.productId = xx;
+        yProduct = productService.GetById(orderDetail.productId);
+        orderDetail.description = yProduct.Description;
+    }
+
+    public void getProductxx(int id)
+    {
+        yProduct = productService.GetById(orderDetail.productId);
+        //orderDetail.description = yProduct.Description;
+    }
+
+    public string getProductx(int id)
+    {
+        string description;
+
+        yProduct = productService.GetById(id);
+        if (yProduct != null)
+            description = yProduct.Description;
+        else
+            description = "";
+
+        return description;
+    }
+
+    public string getProductName(int id)
+    {
+        yProduct = productService.GetById(id);
+        return yProduct.Name;
+    }
+
+    public Double getTotalOrderDetail()
+    {
+        return orderDetail.quantity * orderDetail.unitPrice;
+    }
+
+    public void insertOrderDetail()
+    {
+        if (!isOrderSaved)
+        {
+            //orderService.Insert(order);
+            //orderService.commitData();
+            isOrderSaved = true;
+            orderDetailList = new();
+        }
+
+        /*   orderDetail.idOrder = order.idOrder;
+              orderDetail.total = getTotalOrderDetail();
+              orderDetailService.Insert(orderDetail);*/
+        
+        idOrderDetailList++;
+        orderDetail.item = idOrderDetailList;
+        orderDetailList.Add(orderDetail);
+        orderDetail = new();
+        //getOrderDetailList();
+    }
+
+    private void deleteOrderDetail(int id)
+    {
+        //orderDetailService.Delete(id);
+        orderDetailList.RemoveAll(x => x.item == id);
+        //return "";
+    }
+
+    public void cancelForm()
+    {
+        if (isOrderSaved)
+        {
+            orderService.Delete(order.idOrder);
+        }
+        navigator.NavigateTo("order-list"); //redirect to list page
+    }
+
+    public void saveForm()
+    {
+        orderService.Insert(order); //
+        orderService.commitData(); ////
+
+        int quantityOfItems = 0;
+        double totalAmount = 0;
+        foreach (var obj in orderDetailList)
+        {
+            obj.item = 0;
+            obj.idOrder = order.idOrder;
+            obj.total = obj.quantity * obj.unitPrice;
+            quantityOfItems++;
+            totalAmount += obj.total;
+            orderDetailService.Insert(obj); //
+        }
+        order.quantityOfItems = quantityOfItems;
+        order.totalAmount = totalAmount;
+
+        if (order.isDelivery)
+        {
+            delivery.idOrder = order.idOrder;
+            delivery.address = ""; // all address comes from customer
+            delivery.idCity = 1;
+            delivery.idState = 1;
+            delivery.zipcode = "77041";
+            delivery.dateCreated = order.date;
+            delivery.idDeliveryStatus = 1;
+            deliveryService.Insert(delivery);
+        }
+
+        orderService.commitData(); ////
+
+        navigator.NavigateTo("order-list");
+    }
+}

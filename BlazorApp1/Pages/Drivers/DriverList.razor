@@ -1,0 +1,56 @@
+﻿@page "/driver-list"
+
+<PageTitle>DRIVER</PageTitle>
+
+@using BlazorApp1.Data
+@inject EFCoreDbContext conn;
+
+
+<h1>Drivers</h1>
+
+<a href="./add-driver">New Driver</a>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone</th>
+            <th>e-mail</th>
+            <th>Driver License</th>
+            <th>Address</th>
+            <th>idCity</th>
+            <th>idState</th>
+            <th>Zipcode</th>
+            <th>idDriverStatus</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in driverList)
+        {
+            <DriverRow driverObj="row" deleteDriver="deleteDriver"> </DriverRow>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    public List<Driver> driverList = new List<Driver>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        90
+        
+        
+        driverList = conn.Driver.ToList();
+    }
+
+    private void deleteDriver(int xidDriver)
+    {
+        var obj = conn.Driver.Find(xidDriver);
+        conn.Driver.Remove(obj);
+        conn.SaveChanges();
+    }
+}
