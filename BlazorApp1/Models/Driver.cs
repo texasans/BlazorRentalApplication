@@ -17,12 +17,14 @@ namespace BlazorApp1.Models
         public int idState { get; set; }
         public String zipcode { get; set; }
         public int idCountryFrom { get; set; }
+        public Boolean isOwnVehicle { get; set; } = true;
         public int idVehicleType { get; set; }
         public String vehicleModel { get; set; }
         public String vehicleBrand { get; set; }
         public String vehicleVIN { get; set; }
-        public Int16 vehicleYear { get; set; }
+        public String vehicleYear { get; set; }
         public String vehicleColor { get; set; }
-        public int idDriverStatus { get; set; }
+        public DateTime dateCreated { get; set; } = DateTime.Now;
+        public String driverStatus { get; set; }
     }
 }

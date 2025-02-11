@@ -1,66 +1,44 @@
-﻿<EditForm Model="xorder" OnValidSubmit="Save">
-
+﻿<EditForm Model="xDriver">
     <label>
-        Date:
-        <InputDate class="form-control" @bind-Value="xorder.date" placeholder="Enter order date"></InputDate>
+        First Name: <InputText class="form-control" @bind-Value="xDriver.firstName" placeholder="Enter first name"></InputText>
     </label>
     <label>
-        Customer:
-        <InputSelect class="form-control" @bind-Value="xorder.idCustomer">
-            <option value="0">-- Select Customer --</option>
-            @foreach (var item in customerList)
-            {
-                <option value="@item.CustomerId">@item.FirstName @item.LastName</option>
-            }
-        </InputSelect>
-    </label><br />
-    <label>
-        Shipped from:
-        <InputNumber class="form-control" @bind-Value="xorder.shippedFrom" placeholder="Shipped from"></InputNumber>
+        Last Name: <InputText class="form-control" @bind-Value="xDriver.lastName" placeholder="Enter last name"></InputText>
     </label>
     <label>
-        Shipped to:
-        <InputNumber class="form-control" @bind-Value="xorder.shippedTo" placeholder="Shipped to"></InputNumber>
-    </label><br />
-    <!--<label>
-        Quantity of items:
-    <InputNumber class="form-control" @bind-Value="xorder.quantityOfItems"></InputNumber>
+        Phone Number: <InputText class="form-control" @bind-Value="xDriver.phoneNumber" placeholder="Enter phone number"></InputText>
     </label>
     <label>
-        Total amount:
-        <InputNumber class="form-control" @bind-Value="xorder.totalAmount" InputGroupStartText="$" InputGroupEndText=".00"></InputNumber>
-    </label><br />-->
-    <label>
-        Notes:
-        <InputText class="form-control" @bind-Value="xorder.note" placeholder="Enter order notes"></InputText>
+        e-mail: <InputText class="form-control" @bind-Value="xDriver.email" placeholder="Enter e-mail"></InputText>
     </label>
     <label>
-        <strong>Is for Delivery:</strong>
-        <InputCheckbox @bind-Value="xorder.isDelivery" color></InputCheckbox>
-        
-    </label><br /><br />
-    <!--<button type="submit" class="btn btn-primary">Add Detail</button><br /><br />-->
+        Driver License: <InputText class="form-control" @bind-Value="xDriver.driverLicense" placeholder="Enter driver license"></InputText>
+    </label>
+    <label>
+        Address: <InputText class="form-control" @bind-Value="xDriver.address" placeholder="Enter address"></InputText>
+    </label>
+    <label>
+        Zipcode: <InputText class="form-control" @bind-Value="xDriver.zipcode" placeholder="Enter zipcode"></InputText>
+    </label>
+    <label>
+        Vehicle VIN: <InputText class="form-control" @bind-Value="xDriver.vehicleVIN" placeholder="Enter vehicle VIN"></InputText>
+    </label>
 </EditForm>
 
 @code {
 
     [Parameter]
-    public Order xorder { get; set; }
+    public Driver xDriver { get; set; }
 
-    [Parameter]
-    public EventCallback<Order> SaveOrder { get; set; }
+    //[Parameter]
+    //public EventCallback<Order> SaveOrder { get; set; }
 
-    public List<Customer> customerList = new List<Customer>();
+    //public List<Customer> customerList = new List<Customer>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        customerList = customerService.GetAll();
-    }
-
-    public void Save()
-    {
-        SaveOrder.InvokeAsync(xorder);
+        //customerList = customerService.GetAll();
     }
 
 }

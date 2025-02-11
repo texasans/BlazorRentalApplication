@@ -1,151 +1,40 @@
 ﻿@page "/add-driver"
+@using BlazorApp1.Data
+@inject EFCoreDbContext conn;
 @inject NavigationManager navigator;
 
 <h3>New Driver</h3>
 <button type="button" class="btn btn-primary" @onclick="saveForm">Save</button>&nbsp&nbsp
 <button type="button" class="btn btn-primary" @onclick="cancelForm">Cancel</button><br /><br />
 
-<ShowDriver xDriver="driver" SaveDriver="Savex"></ShowDriver>
-
+<ShowDriver xDriver="driver"</ShowDriver>
 
 
 @code {
 
     public Driver driver;
-    public List<City> cityList = new List<City>();
-    public List<State> stateList = new List<State>();
-    public List<Country> countryList = new List<Country>();
+    //public List<City> cityList = new List<City>();
+    //public List<State> stateList = new List<State>();
+    //public List<Country> countryList = new List<Country>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         driver = new();
-        productList = productService.GetAll();
-
-        isOrderSaved = false;
-    }
-
-    public void Savex(Order order)
-    {
-        //orderService.Insert(order);
-        //navigator.NavigateTo("order-list"); //redirect to list page
-
-    }
-
-    // OrderDetail
-    public void getOrderDetailList()
-    {
-        orderDetailList = orderDetailService.getByIdOrder(order.idOrder);
-    }
-
-    public void getAsdf(ChangeEventArgs e)
-    {
-        int xx = Int32.Parse(e.Value.ToString());
-        orderDetail.productId = xx;
-        yProduct = productService.GetById(orderDetail.productId);
-        orderDetail.description = yProduct.Description;
-    }
-
-    public void getProductxx(int id)
-    {
-        yProduct = productService.GetById(orderDetail.productId);
-        //orderDetail.description = yProduct.Description;
-    }
-
-    public string getProductx(int id)
-    {
-        string description;
-
-        yProduct = productService.GetById(id);
-        if (yProduct != null)
-            description = yProduct.Description;
-        else
-            description = "";
-
-        return description;
-    }
-
-    public string getProductName(int id)
-    {
-        yProduct = productService.GetById(id);
-        return yProduct.Name;
-    }
-
-    public Double getTotalOrderDetail()
-    {
-        return orderDetail.quantity * orderDetail.unitPrice;
-    }
-
-    public void insertOrderDetail()
-    {
-        if (!isOrderSaved)
-        {
-            //orderService.Insert(order);
-            //orderService.commitData();
-            isOrderSaved = true;
-            orderDetailList = new();
-        }
-
-        /*   orderDetail.idOrder = order.idOrder;
-              orderDetail.total = getTotalOrderDetail();
-              orderDetailService.Insert(orderDetail);*/
-        
-        idOrderDetailList++;
-        orderDetail.item = idOrderDetailList;
-        orderDetailList.Add(orderDetail);
-        orderDetail = new();
-        //getOrderDetailList();
-    }
-
-    private void deleteOrderDetail(int id)
-    {
-        //orderDetailService.Delete(id);
-        orderDetailList.RemoveAll(x => x.item == id);
-        //return "";
     }
 
     public void cancelForm()
     {
-        if (isOrderSaved)
-        {
-            orderService.Delete(order.idOrder);
-        }
-        navigator.NavigateTo("order-list"); //redirect to list page
+        navigator.NavigateTo("driver-list");
     }
 
     public void saveForm()
     {
-        orderService.Insert(order); //
-        orderService.commitData(); ////
+        driver.idDriverStatus = "Available";
+        driver.isOwnVehicle = true;
 
-        int quantityOfItems = 0;
-        double totalAmount = 0;
-        foreach (var obj in orderDetailList)
-        {
-            obj.item = 0;
-            obj.idOrder = order.idOrder;
-            obj.total = obj.quantity * obj.unitPrice;
-            quantityOfItems++;
-            totalAmount += obj.total;
-            orderDetailService.Insert(obj); //
-        }
-        order.quantityOfItems = quantityOfItems;
-        order.totalAmount = totalAmount;
-
-        if (order.isDelivery)
-        {
-            delivery.idOrder = order.idOrder;
-            delivery.address = ""; // all address comes from customer
-            delivery.idCity = 1;
-            delivery.idState = 1;
-            delivery.zipcode = "77041";
-            delivery.dateCreated = order.date;
-            delivery.idDeliveryStatus = 1;
-            deliveryService.Insert(delivery);
-        }
-
-        orderService.commitData(); ////
-
-        navigator.NavigateTo("order-list");
+        conn.Driver.Add(driver);
+        conn.SaveChanges();
+        navigator.NavigateTo("driver-list");
     }
 }
