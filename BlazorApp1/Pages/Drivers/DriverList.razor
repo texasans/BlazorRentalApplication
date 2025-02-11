@@ -17,10 +17,8 @@
             <th>e-mail</th>
             <th>Driver License</th>
             <th>Address</th>
-            <th>idCity</th>
-            <th>idState</th>
             <th>Zipcode</th>
-            <th>idDriverStatus</th>
+            <th>Vehicle VIN</th>
             <th></th>
         </tr>
     </thead>
@@ -34,7 +32,7 @@
 
 
 @code {
-    public List<Driver> driverList = new List<Driver>();
+    public List<Driver> driverList;
 
     protected override void OnInitialized()
     {

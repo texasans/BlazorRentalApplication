@@ -1,90 +1,26 @@
-﻿
-@page "/add-driver"
-@using BlazorApp1.Services;
+﻿@page "/add-driver"
 @inject NavigationManager navigator;
-@inject OrderService orderService;
-@inject OrderDetailService orderDetailService;
-@inject DeliveryService deliveryService;
-@inject ProductsService productService;
 
 <h3>New Driver</h3>
 <button type="button" class="btn btn-primary" @onclick="saveForm">Save</button>&nbsp&nbsp
 <button type="button" class="btn btn-primary" @onclick="cancelForm">Cancel</button><br /><br />
 
-<ShowOrder xorder="order" SaveOrder="Savex"></ShowOrder>
+<ShowDriver xDriver="driver" SaveDriver="Savex"></ShowDriver>
 
-<EditForm Model="orderDetail">
-    <table class="table table-hover table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Description</th>
-                <th>Quantity</th>
-                <th align="right">Unit Price</th>
-                <th align="right">Total</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (orderDetailList != null)
-                foreach (var item in orderDetailList)
-                {
-                    <tr>
-                        <td>@getProductName(item.productId)</td>
-                        <td>@item.description</td>
-                        <td align="right">@item.quantity</td>
-                        <td align="right">@item.unitPrice</td>
-                        <td align="right">@(item.quantity * item.unitPrice)</td>
-                        <td align="center">
-                            <a @onclick="() => deleteOrderDetail(item.item)"><img src="icons/icon_subtract_red16.webp" width="24" height="24"></a>
-                        </td>
-                    </tr>
-                }
-            <tr>
-                <td>
-                    <select class="form-control" @onchange="getAsdf">
-                        <option value="0">-- Select Product --</option>
-                        @foreach (var iProduct in productList)
-                        {
-                            <option value="@iProduct.ProductId">@iProduct.Name</option>
-                        }
-                    </select>
-                </td>
-                <td><InputText class="form-control" @bind-Value="orderDetail.description"></InputText></td>
-                <td><InputNumber class="form-control" @bind-Value="orderDetail.quantity"></InputNumber></td>
-                <td><InputNumber class="form-control" @bind-Value="orderDetail.unitPrice"></InputNumber></td>
-                <td align="right">@getTotalOrderDetail()</td>
-                <td align="center">
-                    <a @onclick="insertOrderDetail"><img src="icons/icon_add_green10.png" width="24" height="24"></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <br />
-</EditForm>
 
 
 @code {
 
-    public Order order;
-    public OrderDetail orderDetail;
-    public Delivery delivery;
-    public List<OrderDetail> orderDetailList;
-    public List<Products> productList = new List<Products>();
-    public Products yProduct;
-    public int qq;
-    public Boolean isOrderSaved;
-    public Boolean isDeliverySaved;
-    public int idOrderDetailList = 0;
+    public Driver driver;
+    public List<City> cityList = new List<City>();
+    public List<State> stateList = new List<State>();
+    public List<Country> countryList = new List<Country>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        order = new();
-        orderDetail = new();
-        delivery = new();
+        driver = new();
         productList = productService.GetAll();
-        //getOrderDetailList();
 
         isOrderSaved = false;
     }

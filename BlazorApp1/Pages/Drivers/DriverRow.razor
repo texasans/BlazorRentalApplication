@@ -1,12 +1,8 @@
-﻿@using BlazorApp1.Services;
-@inject OrderService orderService;
-@inject CustomerService customerService;
-@inject NavigationManager navigator;
+﻿@inject NavigationManager navigator;
 
 <tr>
-    <td align="center"><a href="edit-driver/@driverObj.idDriver">@driverObj.idDriver</a></td>
-    <td>@driverObj.firstName</td>
-    <td>@driverObj.lastName</td>
+    <td><a href="edit-driver/@driverObj.idDriver">@driverObj.firstName</a></td>
+    <td><a href="edit-driver/@driverObj.idDriver">@driverObj.lastName</a></td>
     <td align="right">@driverObj.phoneNumber</td>
     <td>@driverObj.email</td>
     <td>@driverObj.driverLicense</td>
