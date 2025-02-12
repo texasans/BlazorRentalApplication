@@ -1,5 +1,4 @@
-﻿
-@page "/edit-order/{idOrder:int}";
+﻿@page "/edit-order/{idOrder:int}";
 @using BlazorApp1.Services;
 @inject OrderService orderService;
 @inject NavigationManager navigator;
@@ -10,7 +9,6 @@
 
 
 @code {
-
     [Parameter]
     public int idOrder { get; set; }
 
