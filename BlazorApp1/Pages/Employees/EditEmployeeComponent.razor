@@ -26,7 +26,7 @@
         base.OnInitialized();
         Employee = context.Employee.Find(employeeId);
         CountryList = context.Country.ToList();
-        CityList = context.City.Where(x => x.idCountry == Employee.CountryId).ToList();
+        //CityList = context.City.Where(x => x.idCountry == Employee.CountryId).ToList();
     }
 
     public void OnCountryChanged(int countryId)

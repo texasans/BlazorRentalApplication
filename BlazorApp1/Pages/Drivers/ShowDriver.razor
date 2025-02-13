@@ -1,27 +1,27 @@
-﻿<EditForm Model="xDriver">
+﻿<EditForm Model="tDriver">
     <label>
-        First Name: <InputText class="form-control" @bind-Value="xDriver.firstName" placeholder="Enter first name"></InputText>
+        First Name: <InputText class="form-control" @bind-Value="tDriver.firstName" placeholder="Enter first name"></InputText>
     </label>
     <label>
-        Last Name: <InputText class="form-control" @bind-Value="xDriver.lastName" placeholder="Enter last name"></InputText>
+        Last Name: <InputText class="form-control" @bind-Value="tDriver.lastName" placeholder="Enter last name"></InputText>
     </label><br />
     <label>
-        Phone Number: <InputText class="form-control" @bind-Value="xDriver.phoneNumber" placeholder="Enter phone number"></InputText>
+        Phone Number: <InputText class="form-control" @bind-Value="tDriver.phoneNumber" placeholder="Enter phone number"></InputText>
     </label>
     <label>
-        e-mail: <InputText class="form-control" @bind-Value="xDriver.email" placeholder="Enter e-mail"></InputText>
+        e-mail: <InputText class="form-control" @bind-Value="tDriver.email" placeholder="Enter e-mail"></InputText>
     </label>
     <label>
-        Driver License: <InputText class="form-control" @bind-Value="xDriver.driverLicense" placeholder="Enter driver license"></InputText>
+        Driver License: <InputText class="form-control" @bind-Value="tDriver.driverLicense" placeholder="Enter driver license"></InputText>
     </label><br />
     <label>
-        Address: <InputText class="form-control" @bind-Value="xDriver.address" placeholder="Enter address"></InputText>
+        Address: <InputText class="form-control" @bind-Value="tDriver.address" placeholder="Enter address"></InputText>
     </label>
     <label>
-        Zipcode: <InputText class="form-control" @bind-Value="xDriver.zipcode" placeholder="Enter zipcode"></InputText>
+        Zipcode: <InputText class="form-control" @bind-Value="tDriver.zipcode" placeholder="Enter zipcode"></InputText>
     </label><br />
     <label>
-        Vehicle VIN: <InputText class="form-control" @bind-Value="xDriver.vehicleVIN" placeholder="Enter vehicle VIN"></InputText>
+        Vehicle VIN: <InputText class="form-control" @bind-Value="tDriver.vehicleVIN" placeholder="Enter vehicle VIN"></InputText>
     </label><br />
 </EditForm>
 
@@ -35,9 +35,12 @@
 
     //public List<Customer> customerList = new List<Customer>();
 
+    private Driver tDriver;
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        tDriver = xDriver;
         //customerList = customerService.GetAll();
     }
 

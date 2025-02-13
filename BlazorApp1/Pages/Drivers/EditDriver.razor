@@ -7,7 +7,7 @@
 <button type="button" class="btn btn-primary" @onclick="saveForm">Save</button>&nbsp&nbsp
 <button type="button" class="btn btn-primary" @onclick="cancelForm">Cancel</button><br /><br />
 
-<ShowDriver xDriver="driver"></ShowDriver>
+<ShowDriver xDriver="driverTemp"></ShowDriver>
 
 
 @code {
@@ -15,7 +15,7 @@
     public int idDriver { get; set; }
 
 
-    public Driver driver;
+    private Driver driver, driverTemp;
     //public List<City> cityList = new List<City>();
     //public List<State> stateList = new List<State>();
     //public List<Country> countryList = new List<Country>();
@@ -23,11 +23,15 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        driver = new();
+        //driver = new();
+        driver = driverTemp = conn.Driver.Find(idDriver);
     }
 
     public void cancelForm()
     {
+        //driver = driverTemp;
+        //navigator.NavigateTo("driver-list", true);
+        conn.Entry(driver).Reload();
         navigator.NavigateTo("driver-list");
     }
 

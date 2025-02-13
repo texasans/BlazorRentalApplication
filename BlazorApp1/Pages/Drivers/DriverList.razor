@@ -38,6 +38,7 @@
     {
         base.OnInitialized();
         driverList = conn.Driver.ToList();
+        //conn.Entry(Driver).Reload();
     }
 
     private void deleteDriver(int xidDriver)
