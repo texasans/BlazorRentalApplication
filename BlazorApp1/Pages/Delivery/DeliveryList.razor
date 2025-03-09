@@ -4,6 +4,7 @@
 
 @using BlazorApp1.Data
 @using BlazorApp1.Services;
+@using BootstrapBlazor.Components;
 @inject DeliveryService deliveryService;
 @inject OrderService orderService;
 
@@ -27,20 +28,6 @@
     <tbody>
         @if (deliveryList != null)
         {
-            if (showPopup)
-            {
-                <div class="modal" tabindex="-1" style="display:block" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <p>Send Offers to Drivers</p>
-                                <a>@selectedId</a>
-                                <button type="button" class="close" @onclick="closePopup"><span aria-hidden="true">Close</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
 
             foreach (var item in deliveryList)
             {
@@ -49,6 +36,21 @@
         }
     </tbody>
 </table>
+            if (showPopup)
+            {
+<div class="modal" tabindex="-1" style="display:block" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p>Send Offers to Drivers</p>
+                <a>@selectedId</a>
+                <button type="button" class="close" @onclick="closePopup"><span aria-hidden="true">Close</span></button>
+                <OfferList paramIdOrder="idOrder"> </OfferList>
+            </div>
+        </div>
+    </div>
+</div>
+            }
 
 
 
@@ -57,6 +59,7 @@
 
     public bool showPopup = false;
     public int selectedId;
+    public int idOrder;
 
     public void GetDeliveries()
     {
@@ -73,7 +76,7 @@
 
     public void sendOffersParent(int id)
     {
-        selectedId = id;
+        idOrder = id;
         showPopup = true;
     }
 

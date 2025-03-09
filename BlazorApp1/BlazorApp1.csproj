@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BootstrapBlazor" Version="9.4.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.18">
       <PrivateAssets>all</PrivateAssets>
@@ -22,10 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\Offers\OfferList.razor">
+    <Content Update="Pages\Delivery\OfferList.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Pages\Offers\OfferRow.razor">
+    <Content Update="Pages\Delivery\OfferRow.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Pages\Drivers\EditDriver.razor">
@@ -40,6 +41,10 @@
     <Content Update="Shared\MasterTableList.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Offers\" />
   </ItemGroup>
 
 </Project>

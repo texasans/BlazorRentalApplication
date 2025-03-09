@@ -1,11 +1,11 @@
-﻿@page "/offer-list/{idOrder:int}";
-@using BlazorApp1.Data
+﻿@using BlazorApp1.Data
+
 @inject EFCoreDbContext conn;
 
 <PageTitle>OFFERS</PageTitle>
 
 <br />
-<h1>Offers for Order #@idOrder</h1>
+<h1>Offers for Order #@paramIdOrder</h1>
 <br />
 Address:
 <br />
@@ -13,11 +13,11 @@ Address:
 <table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
+            <th></th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Phone</th>
             <th>Zipcode</th>
-            <th>Send</th>
         </tr>
     </thead>
     <tbody>
@@ -29,10 +29,9 @@ Address:
 </table>
 <button type="button" class="btn btn-primary" @onclick="sendOffersNow">Send Offers Now</button>
 
-
 @code {
     [Parameter]
-    public int idOrder { get; set; }
+    public int paramIdOrder { get; set; }
 
     public List<Driver> driverList;
 

@@ -15,7 +15,10 @@
     <td>@deliveryObj.idDriver</td>
     <td align="center">@getDeliveryStatus()</td>
     <td align="center">
-        <button type='button' disabled='false' class='btn btn-secondary' @onclick='sendOffersChild'>Send Offers</button>
+        @if (deliveryObj.idDeliveryStatus == 1)
+        {
+            <button type='button' class='btn btn-secondary' @onclick='sendOffersChild'>Send Offers</button>
+        }
     </td>
 </tr> 
 
@@ -30,7 +33,7 @@
     public Order order;
     //public string myMark = "<button type=\"button\" class=\"btn btn-secondary\" @onclick=\"sendOffersChild\">Send Offers</button>";
     public string myMark = "<button type='button' class='btn btn-secondary' onclick ='@@sendOffersChild'>Send Offers</button>";
-
+    public string strDisabled = "disabled";
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -69,9 +72,9 @@
 
     public void sendOffersChild()
     {
-        navigator.NavigateTo($"offer-list/{deliveryObj.idOrder}");
+        //navigator.NavigateTo($"offer-list/{deliveryObj.idOrder}");
         //navigator.NavigateTo($"send-text-message/{deliveryObj.idOrder}");
-        //paramMethodAndId.InvokeAsync(deliveryObj.idOrder);
+        paramMethodAndId.InvokeAsync(deliveryObj.idOrder);
     }
 }
 
