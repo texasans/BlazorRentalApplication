@@ -1,37 +1,39 @@
-﻿@page "/driver-list"
+﻿@page "/offer-list/{idOrder:int}";
 @using BlazorApp1.Data
 @inject EFCoreDbContext conn;
 
-<PageTitle>DRIVERS</PageTitle>
+<PageTitle>OFFERS</PageTitle>
 
-<h1>Drivers</h1>
-
-<a href="./add-driver">New Driver</a>
-
+<br />
+<h1>Offers for Order #@idOrder</h1>
+<br />
+Address:
+<br />
+<br />
 <table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Phone</th>
-            <th>e-mail</th>
-            <th>Driver License</th>
-            <th>Address</th>
             <th>Zipcode</th>
-            <th>Vehicle VIN</th>
-            <th></th>
+            <th>Send</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var row in driverList)
         {
-            <DriverRow driverObj="row" deleteParam="deleteDriver"> </DriverRow>
+            <OfferRow driverObj="row"> </OfferRow>
         }
     </tbody>
 </table>
+<button type="button" class="btn btn-primary" @onclick="sendOffersNow">Send Offers Now</button>
 
 
 @code {
+    [Parameter]
+    public int idOrder { get; set; }
+
     public List<Driver> driverList;
 
     protected override void OnInitialized()
@@ -41,13 +43,7 @@
         //conn.Entry(Driver).Reload();
     }
 
-    private void deleteDriver(int id)
+    private void sendOffersNow()
     {
-        var obj = conn.Driver.Find(id);
-        conn.Driver.Remove(obj);
-
-        conn.SaveChanges();
-
-        driverList.RemoveAll(x => x.idDriver == id);
     }
 }

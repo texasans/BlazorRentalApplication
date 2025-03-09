@@ -21,7 +21,7 @@
     public Driver driverObj { get; set; }
 
     [Parameter]
-    public EventCallback<int> deleteDriver { get; set; }
+    public EventCallback<int> deleteParam { get; set; }
 
 
     protected override void OnInitialized()
@@ -31,6 +31,6 @@
 
     public void delete()
     {
-        deleteDriver.InvokeAsync(driverObj.idDriver);
+        deleteParam.InvokeAsync(driverObj.idDriver);
     }
 }

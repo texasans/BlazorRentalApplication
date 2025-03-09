@@ -1,0 +1,21 @@
+﻿<tr>
+    <td>@driverObj.firstName</td>
+    <td>@driverObj.lastName</td>
+    <td align="right">@driverObj.phoneNumber</td>
+    <td>@driverObj.zipcode</td>
+    <td align="center">
+        <InputCheckbox @bind-Value="driverObj.isOwnVehicle"></InputCheckbox>
+    </td>
+</tr> 
+
+
+@code
+{
+    [Parameter]
+    public Driver driverObj { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}

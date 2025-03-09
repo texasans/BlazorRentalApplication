@@ -22,6 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Pages\Offers\OfferList.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\Offers\OfferRow.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
     <Content Update="Pages\Drivers\EditDriver.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>

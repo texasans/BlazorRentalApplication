@@ -12,7 +12,7 @@ namespace BlazorApp1.Models
         public Int32 item { get; set; }
         public Int32 productId { get; set; }
         public String description { get; set; }
-        public Int32 quantity { get; set; }
+        public Int32 quantity { get; set; } = 1;
         public Double unitPrice { get; set; }
         public Double total { get; set; }
         
