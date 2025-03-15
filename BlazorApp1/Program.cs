@@ -19,6 +19,8 @@ builder.Services.AddTransient<CustomerService>();
 builder.Services.AddTransient<DeliveryService>();
 builder.Services.AddTransient<OfferDeliveryService>();
 
+builder.Services.AddBlazorBootstrap();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

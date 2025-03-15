@@ -1,0 +1,117 @@
+﻿@using BlazorApp1.Data
+@using BlazorBootstrap
+@* RenderMode InteractiveServer *@
+
+@inject EFCoreDbContext conn;
+
+﻿<div class="modal fade show" id="myModal" style="display:block; background-color: rgba(235, 235, 245, 0.48);" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">OFFERS FOR DELIVERY TO DRIVERS</h4>
+                <button type="button" class="close" @onclick="@cancel">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h1>Offers for Order #@Obj.idOrder</h1>
+                <br />
+                Address: @(Obj.address + " " + Obj.idCity + " " + Obj.idState + " " + Obj.zipcode)
+                <br />
+                <br />
+                <Grid TItem="Driver"
+                      Class="table table-hover table-bordered table-striped"
+                      DataProvider="DriversDataProvider"
+                      AllowFiltering="true"
+                      AllowPaging="true"
+                      AllowSorting="true"
+                      AllowSelection="true"
+                      SelectionMode="GridSelectionMode.Multiple"
+                      SelectedItemsChanged="OnSelectedItemsChanged"
+                      Responsive="true">
+
+                    <GridColumns>
+                        <GridColumn TItem="Driver" HeaderText="First Name" PropertyName="firstName" SortKeySelector="item => item.firstName">
+                            @context.firstName
+                        </GridColumn>
+                        <GridColumn TItem="Driver" HeaderText="Last Name" PropertyName="lastName" SortKeySelector="item => item.lastName">
+                            @context.lastName
+                        </GridColumn>
+                        <GridColumn TItem="Driver" HeaderText="Phone" PropertyName="phoneNumber" SortKeySelector="item => item.phoneNumber">
+                            @context.phoneNumber
+                        </GridColumn>
+                        <GridColumn TItem="Driver" HeaderText="Zipcode" PropertyName="zipcode" SortKeySelector="item => item.zipcode">
+                            @context.zipcode
+                        </GridColumn>
+                    </GridColumns>
+
+                </Grid>
+                <div class="mt-3">
+                    Selected Items Count: @selectedDrivers.Count
+                </div>
+
+                <div class="mt-2">
+                    Selected Drivers:
+                    <ul>
+                        @foreach (var i in selectedDrivers)
+                        {
+                            <li>@i.firstName</li>
+                        }
+                    </ul>
+                </div>
+                Text Message:
+                <InputTextArea class="form-control" @bind-Value="textMessage" Rows="3"></InputTextArea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="@cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" @onclick=@sendOffersNow>Send Offers Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Delivery Obj { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnClose { get; set; }
+
+    //public List<Driver> driverList;
+    private IEnumerable<Driver> driverList = default!;
+
+    private string textMessage;
+
+    private HashSet<Driver> selectedDrivers = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        //driverList = conn.Driver.ToList();
+
+        //conn.Entry(Driver).Reload();
+        textMessage = "Delivery Order #" + Obj.idOrder + ", Address: " + Obj.address + " " + Obj.idCity + " " + Obj.idState + " " + Obj.zipcode;
+    }
+
+    private async Task<GridDataProviderResult<Driver>> DriversDataProvider(GridDataProviderRequest<Driver> request)
+    {
+        if (driverList is null) // pull employees only one time for client-side filtering, sorting, and paging
+            driverList = conn.Driver.ToList(); // call a service or an API to pull the employees
+
+        return await Task.FromResult(request.ApplyTo(driverList));
+    }
+
+    private Task OnSelectedItemsChanged(HashSet<Driver> drivers)
+    {
+        selectedDrivers = drivers is not null && drivers.Any() ? drivers : new();
+        return Task.CompletedTask;
+    }
+
+    private Task cancel()
+    {
+        return OnClose.InvokeAsync(false);
+    }
+
+    private Task sendOffersNow()
+    {
+        return OnClose.InvokeAsync(true);
+    }
+}

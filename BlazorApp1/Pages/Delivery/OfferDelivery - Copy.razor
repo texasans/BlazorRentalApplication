@@ -1,0 +1,74 @@
+﻿@using BlazorApp1.Data
+
+@inject EFCoreDbContext conn;
+
+﻿<div class="modal fade show" id="myModal" style="display:block; background-color: rgba(235, 235, 245, 0.48);" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">OFFERS FOR DELIVERY TO DRIVERS</h4>
+                <button type="button" class="close" @onclick="@cancel">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h1>Offers for Order #@Obj.idOrder</h1>
+                <br />
+                Address: @(Obj.address + " " + Obj.idCity + " " + Obj.idState + " " + Obj.zipcode)
+                <br />
+                <br />
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone</th>
+                            <th>Zipcode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in driverList)
+                        {
+                            <OfferRow driverObj="row"> </OfferRow>
+                        }
+                    </tbody>
+                </table>
+                Text Message:
+                <InputTextArea class="form-control" @bind-Value="textMessage" Rows="3"></InputTextArea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="@cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" @onclick=@sendOffersNow>Send Offers Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Delivery Obj { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnClose { get; set; }
+
+    public List<Driver> driverList;
+
+    private string textMessage;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        driverList = conn.Driver.ToList();
+        //conn.Entry(Driver).Reload();
+        textMessage = "Delivery Order #" + Obj.idOrder + ", Address: " + Obj.address + " " + Obj.idCity + " " + Obj.idState + " " + Obj.zipcode;
+    }
+
+    private Task cancel()
+    {
+        return OnClose.InvokeAsync(false);
+    }
+
+    private Task sendOffersNow()
+    {
+        return OnClose.InvokeAsync(true);
+    }
+}

@@ -4,10 +4,12 @@
 
 @using BlazorApp1.Data
 @using BlazorApp1.Services;
-@using BootstrapBlazor.Components;
+@using BlazorApp1.Components;
+@using BlazorBootstrap
 @inject DeliveryService deliveryService;
 @inject OrderService orderService;
-
+@inject NavigationManager navigator;
+@inject ModalService ModalService;
 
 <h1>Deliveries</h1>
 
@@ -31,41 +33,52 @@
 
             foreach (var item in deliveryList)
             {
-                <DeliveryRow deliveryObj="item" paramMethodAndId="sendOffersParent"></DeliveryRow>
+                <DeliveryRow deliveryObj="item" paramMethodAndId="offerDelivery"></DeliveryRow>
             }
         }
     </tbody>
 </table>
-            if (showPopup)
-            {
-<div class="modal" tabindex="-1" style="display:block" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <p>Send Offers to Drivers</p>
-                <a>@selectedId</a>
-                <button type="button" class="close" @onclick="closePopup"><span aria-hidden="true">Close</span></button>
-                <OfferList paramIdOrder="idOrder"> </OfferList>
-            </div>
-        </div>
-    </div>
-</div>
-            }
 
 
+@if (isShowOffer)
+{
+    <OfferDelivery Obj="obj" OnClose="@onClose"></OfferDelivery>
+}
+
+<!--
+<Modal @ref="modal" Title="Modal title" UseStaticBackdrop="true">
+<BodyTemplate>
+Modal body text goes here.
+</BodyTemplate>
+<FooterTemplate>
+<Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Cancel</Button>
+<Button Color="ButtonColor.Primary">Send Offers Now</Button>
+</FooterTemplate>
+</Modal>
+-->
 
 @code {
     public List<Delivery> deliveryList;
 
-    public bool showPopup = false;
-    public int selectedId;
-    public int idOrder;
+    private bool isShowOffer = false;
+    public Delivery obj;
+
+    private Modal modal = default!;
+
+    private async Task OnShowModalClick()
+    {
+        await modal.ShowAsync();
+    }
+
+    private async Task OnHideModalClick()
+    {
+        await modal.HideAsync();
+    }
 
     public void GetDeliveries()
     {
         deliveryList = deliveryService.GetAll();
         deliveryList = deliveryList.OrderByDescending(Delivery => Delivery.idOrder).ToList();
-
     }
 
     protected override void OnInitialized()
@@ -74,14 +87,20 @@
         base.OnInitialized();   
     }
 
-    public void sendOffersParent(int id)
+    public void offerDelivery(Delivery objSelected)
     {
-        idOrder = id;
-        showPopup = true;
+        //navigator.NavigateTo($"send-text-message/{objSelected.idOrder}");
+        obj = objSelected;
+        isShowOffer = true;
+        //modal.ShowAsync();
     }
 
-    public void closePopup()
+    private void onClose(bool isConfirmed)
     {
-        showPopup = false;
+        if (isConfirmed)
+        {
+            //maybe message
+        }
+        isShowOffer = false;
     }
 }

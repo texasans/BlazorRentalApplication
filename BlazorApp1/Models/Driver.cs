@@ -7,7 +7,9 @@ namespace BlazorApp1.Models
     {
         [Key]
         public int idDriver { get; set; }
+        [Required(ErrorMessage = "First name required.")]
         public String firstName { get; set; }
+        [Required(ErrorMessage = "Last name required.")]
         public String lastName { get; set; }
         public String phoneNumber { get; set; }
         public String email { get; set; }
